@@ -1,49 +1,50 @@
-import { useRef, Fragment } from "react";
+import { useRef, Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Welcome() {
+  const [loading, setLoading] = useState(false);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
   const createAccHandler = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     try {
-    } catch (err) {}
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const res = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: enteredEmail,
+            password: enteredPassword,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!res.ok) {
+        const { error } = await res.json();
+        console.log(error.message);
+        throw new Error(error.message);
       }
-    ).then((res) => {
-      if (res.ok) {
-        console.log("create acc is ok");
-        console.log(res.json());
-      } else {
-        return res.json().then((data) => {
-          let errorMessage = "Authentication failed.";
-          if (data && data.error && data.error.message) {
-            errorMessage = data.error.message;
-          }
-          alert(errorMessage);
-        });
-      }
-    });
+      const data = await res.json();
+      console.log(data);
+      console.log("Account was created!");
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Fragment>
-      <p>This is Welcome page</p>
+      <p>This is Welcome Sign up page</p>
       <form onSubmit={createAccHandler}>
         <div>
           <label htmlFor="email">Enter Email</label>
@@ -59,7 +60,9 @@ export default function Welcome() {
           />
         </div>
         <div>
-          <button type="submit">Create account</button>
+          <button disabled={loading} type="submit">
+            Create account
+          </button>
         </div>
       </form>
       <Link to="/sign-in">Sign in with existing account</Link>

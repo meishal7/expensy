@@ -1,18 +1,21 @@
-import { useRef, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useContext, Fragment } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 export default function SignIn() {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const ctx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const signInHandler = async (event) => {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-   
+
     try {
-      const response = await fetch(
+      const res = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc",
         {
           method: "POST",
@@ -26,11 +29,14 @@ export default function SignIn() {
           },
         }
       );
-      if (!response.ok) {
+      if (!res.ok) {
         throw new Error("Authentication failed.");
       }
-      const body = await response.json();
-      console.log(body);
+      const data = await res.json();
+      console.log(data);
+      console.log("Log in succed!");
+      navigate(`/profile`);
+      //ctx.login(data.idToken);
     } catch (error) {
       console.log(error.message);
     }
