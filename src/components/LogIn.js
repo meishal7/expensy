@@ -14,37 +14,37 @@ export default function LogIn() {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    authCtx.login("TOKEN");
-    localStorage.setItem("token", "TOKEN");
-    //console.log(!!authCtx.token);
-    navigate("/dashboard", { replace: true });
+    try {
+      const res = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: enteredEmail,
+            password: enteredPassword,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error("Authentication failed.");
+      }
+      const data = await res.json();
+      const expirationTime = new Date(
+        new Date().getTime() + +data.expiresIn * 1000
+      );
+      authCtx.login(data.idToken, expirationTime.toISOString());
 
-    // try {
-    //   const res = await fetch(
-    //     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc",
-    //     {
-    //       method: "POST",
-    //       body: JSON.stringify({
-    //         email: enteredEmail,
-    //         password: enteredPassword,
-    //         returnSecureToken: true,
-    //       }),
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-    //   if (!res.ok) {
-    //     throw new Error("Authentication failed.");
-    //   }
-    //   const data = await res.json();
-    //   console.log(data);
-    //   console.log("Log in succed!");
-    //   navigate(`/profile`);
-    //   //ctx.login(data.idToken);
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
+      //console.log(!!authCtx.token);
+      navigate("/dashboard", { replace: true });
+      //console.log(data);
+      //console.log("Account was created!");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
