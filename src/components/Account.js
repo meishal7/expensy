@@ -1,8 +1,5 @@
 import { Fragment } from "react";
-export default function Profile() {
-  return (
-    <Fragment>
-      <div>This is user profile page.</div>
-    </Fragment>
-  );
+
+export default function Account() {
+  return <Fragment>This is account.</Fragment>;
 }

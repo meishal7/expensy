@@ -1,16 +1,21 @@
+import { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Fragment } from "react";
+import AuthContext from "../context/AuthContext";
 
 export default function SideMenu() {
+  const authCtx = useContext(AuthContext);
   return (
     <Fragment>
       <div>
-        <Link to="/account">Account</Link>
-        <Link to="/budget">Budget</Link>
+        <p>This is side menu.</p>
+        <Link to="/dashboard/account">Account</Link>
+        <br></br>
+        <Link to="/dashboard/budget">Budget</Link>
+        <br></br>
         <Link to="/dashboard">Expenses</Link>
-        <Link to="/dashboard/add-expense">Add Expense</Link>
+        <br></br>
       </div>
-      <div>Expenses logo here</div>
+      <button onClick={authCtx.logout}>Log Out</button>
     </Fragment>
   );
 }

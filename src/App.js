@@ -37,23 +37,49 @@
  *
  *
  */
-import Welcome from "./components/Welcome";
-import { Routes, Route } from "react-router-dom";
-import SignIn from "./components/SignIn";
-import Profile from "./components/Account";
-import Dashboard from "./components/Dashboard";
+import SignUp from "./components/SignUp";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import LogIn from "./components/LogIn";
+import AuthContext from "./context/AuthContext";
+import { Fragment, useContext } from "react";
+import Layout from "./components/Layout";
+import Account from "./components/Account";
+import Budget from "./components/Budget";
+import Expenses from "./components/Expenses";
 
 function App() {
+  const authCtx = useContext(AuthContext);
+  const location = useLocation();
+  //console.log("initial render", !!authCtx.token);
+
   return (
-    <div className="App">
+    <Fragment>
       <Routes>
-        <Route path="/" element={<Welcome />} />
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/log-in" element={<LogIn />} />
+        <Route
+          path="/dashboard"
+          element={
+            localStorage.getItem("token") ? (
+              <Layout />
+            ) : (
+              <Navigate to="/sign-up" state={{ from: location }} replace />
+            )
+          }
+        >
+          <Route path="account" element={<Account />} />
+          <Route path="budget" element={<Budget />} />
+          <Route path="" element={<Expenses />} />
+        </Route>
+        <Route path="*" element={<SignUp />}></Route>
       </Routes>
-    </div>
+    </Fragment>
   );
 }
 
