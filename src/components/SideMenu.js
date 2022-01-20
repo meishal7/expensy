@@ -1,6 +1,11 @@
 import { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import styled from "styled-components";
+
+const SideMenuStyle = styled.div`
+border: black solid 
+`
 
 export default function SideMenu() {
   const authCtx = useContext(AuthContext);

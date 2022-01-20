@@ -8,7 +8,7 @@ export default function Layout() {
     <Fragment>
       <SideMenu />
       <Dashboard>
-        <Outlet />
+       
       </Dashboard>
     </Fragment>
   );

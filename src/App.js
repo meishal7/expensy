@@ -47,16 +47,101 @@ import {
 } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import AuthContext from "./context/AuthContext";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import Layout from "./components/Layout";
 import Account from "./components/Account";
 import Budget from "./components/Budget";
 import Expenses from "./components/Expenses";
+import ExpenseForm from "./components/ExpenseForm";
+import YearFilter from "./components/YearFilter";
+import Chart from "./components/Chart";
+
+const DUMMY_EXPENSES = [
+  {
+    id: Math.random() * 5,
+    title: "Surf1",
+    cost: 1000,
+    month: 1,
+    day: "01",
+    year: 2022,
+  },
+  {
+    id: Math.random() * 5,
+    title: "Surf1",
+    cost: 1000,
+    month: 1,
+    day: "01",
+    year: 2021,
+  },
+  {
+    id: Math.random() * 5,
+    title: "Surf1",
+    cost: 2000,
+    month: 1,
+    day: "01",
+    year: 2021,
+  },
+  {
+    id: Math.random() * 5,
+    title: "Surf1",
+    cost: 1000,
+    month: 2,
+    day: "01",
+    year: 2021,
+  },
+  {
+    id: Math.random() * 5,
+    title: "Surf1",
+    cost: 1000,
+    month: 11,
+    day: "01",
+    year: 2019,
+  },
+  {
+    id: Math.random() * 5,
+    title: "Surf1",
+    cost: 1000,
+    month: 12,
+    day: "01",
+    year: 2019,
+  },
+  {
+    id: Math.random() * 5,
+    title: "Surf1",
+    cost: 1000,
+    month: 12,
+    day: "01",
+    year: 2019,
+  },
+];
 
 function App() {
+  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+  const [selectedYear, setYear] = useState(2022);
+  const [isEditingForm, setIsEditing] = useState(false);
+
+  const isEditingFormHandler = () => {
+    setIsEditing(true);
+  };
+
+  const stopIsEditingFormHandler = () => {
+    setIsEditing(false);
+  };
+
+  const submitExpenseHandler = (data) => {
+    const expenseData = {
+      ...data,
+      id: Math.random().toString(),
+    };
+    setExpenses((prevExpenses) => [expenseData, ...prevExpenses]);
+    setIsEditing(false);
+  };
+
+  const filteredExpenses = expenses.filter((expense) => {
+    return expense.year === selectedYear;
+  });
   const authCtx = useContext(AuthContext);
   const location = useLocation();
-  //console.log("initial render", !!authCtx.token);
 
   return (
     <Fragment>
@@ -75,7 +160,27 @@ function App() {
         >
           <Route path="account" element={<Account />} />
           <Route path="budget" element={<Budget />} />
-          <Route path="" element={<Expenses />} />
+          <Route
+            path=""
+            element={
+              <Fragment>
+                {!isEditingForm ? (
+                  <button onClick={isEditingFormHandler}>
+                    Add New Expense
+                  </button>
+                ) : (
+                  <ExpenseForm
+                    onSubmitNewExpense={submitExpenseHandler}
+                    onCancel={stopIsEditingFormHandler}
+                  />
+                )}
+
+                <YearFilter onChangeYear={setYear} />
+                <Chart expenses={filteredExpenses} />
+                <Expenses expenses={filteredExpenses} />
+              </Fragment>
+            }
+          />
         </Route>
         <Route path="*" element={<SignUp />}></Route>
       </Routes>
