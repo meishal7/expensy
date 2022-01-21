@@ -44,13 +44,19 @@ export default function LogIn() {
       navigate("/dashboard", { replace: true });
 
       // retrieve db
+      console.log();
       const dbData = await fetch(
-        "https://expensy-db-default-rtdb.firebaseio.com/users.json?print=pretty",
+        `https://expensy-db-default-rtdb.firebaseio.com/users/${authCtx.id}/expenses.json`,
         {
           method: "GET",
         }
       );
+
       const dbResponse = await dbData.json();
+      console.log(dbResponse);
+
+      const arr = Object.values(dbResponse);
+      console.log(arr);
 
       //retrieve ends here
     } catch (error) {

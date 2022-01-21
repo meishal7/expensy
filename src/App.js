@@ -91,22 +91,19 @@ function App() {
 
   const submitExpenseHandler = async (data) => {
     // store in db
-    const expData = {
-      id: authCtx.id,
-      ...data,
-    };
+
     const res = await fetch(
-      "https://expensy-db-default-rtdb.firebaseio.com/users.json",
+      `https://expensy-db-default-rtdb.firebaseio.com/users/${authCtx.id}/expenses.json`,
       {
         method: "POST",
-        body: JSON.stringify(expData),
+        body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json",
         },
       }
     );
     const dataBack = await res.json();
-    console.log(dataBack);
+    //console.log(dataBack);
 
     // store in db ends here
 
