@@ -40,11 +40,14 @@ export default function SignUp() {
         throw new Error(error.message);
       }
       const data = await res.json();
+      console.log(data);
+      //store db
+      authCtx.storeId(data.localId);
       const expirationTime = new Date(
         new Date().getTime() + +data.expiresIn * 1000
       );
       authCtx.login(data.idToken, expirationTime.toISOString());
-      
+
       //console.log(!!authCtx.token);
       navigate("/dashboard", { replace: true });
       //console.log(data);

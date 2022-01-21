@@ -9,6 +9,8 @@ const AuthContext = React.createContext({
   isAuthenticated: false,
   login: (token) => {},
   logout: () => {},
+  id: "",
+  storeId: (id) => {},
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -41,6 +43,7 @@ export const AuthContextProvider = (props) => {
     initialToken = tokenData.token;
   }
   const [token, setToken] = useState(initialToken);
+  const [id, setId] = useState("");
   const navigate = useNavigate();
 
   const logoutHandler = useCallback(() => {
@@ -59,6 +62,10 @@ export const AuthContextProvider = (props) => {
     logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
 
+  const storeIdHandler = (id) => {
+    setId(id);
+  };
+
   useEffect(() => {
     if (tokenData) {
       logoutTimer = setTimeout(logoutHandler, tokenData.remainingTime);
@@ -69,6 +76,8 @@ export const AuthContextProvider = (props) => {
     token: token,
     login: loginHandler,
     logout: logoutHandler,
+    id: id,
+    storeId: storeIdHandler,
   };
 
   return (
@@ -79,10 +88,3 @@ export const AuthContextProvider = (props) => {
 };
 
 export default AuthContext;
-/**
- * take a token and store it
- * if user created account, redirect to welcome page again and ask for sign in
- * when user clicked sign in, we store token with setToken() in ctx
- * when user clicked log out, we set token to null in ctx
- * create ctx property "isAuthenticated" and store false or true depending on token
- */

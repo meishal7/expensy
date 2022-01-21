@@ -33,15 +33,26 @@ export default function LogIn() {
         throw new Error("Authentication failed.");
       }
       const data = await res.json();
+      //store id in context
+      authCtx.storeId(data.localId);
+
       const expirationTime = new Date(
         new Date().getTime() + +data.expiresIn * 1000
       );
       authCtx.login(data.idToken, expirationTime.toISOString());
 
-      //console.log(!!authCtx.token);
       navigate("/dashboard", { replace: true });
-      //console.log(data);
-      //console.log("Account was created!");
+
+      // retrieve db
+      const dbData = await fetch(
+        "https://expensy-db-default-rtdb.firebaseio.com/users.json?print=pretty",
+        {
+          method: "GET",
+        }
+      );
+      const dbResponse = await dbData.json();
+
+      //retrieve ends here
     } catch (error) {
       console.log(error.message);
     }
