@@ -1,8 +1,12 @@
 import { useRef, useContext, Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import getExpenses from "../modules/getExpenses";
+import loginUser from "../modules/loginUser";
 
-export default function LogIn() {
+export default function LogIn(props) {
+  const API_KEY = "AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc";
+
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext);
@@ -15,50 +19,21 @@ export default function LogIn() {
     const enteredPassword = passwordInputRef.current.value;
 
     try {
-      const res = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await loginUser(API_KEY, enteredEmail, enteredPassword);
+
       if (!res.ok) {
         throw new Error("Authentication failed.");
       }
       const data = await res.json();
-      //store id in context
       authCtx.storeId(data.localId);
 
       const expirationTime = new Date(
         new Date().getTime() + +data.expiresIn * 1000
       );
-      authCtx.login(data.idToken, expirationTime.toISOString());
+
+      authCtx.login(data.idToken, expirationTime.toISOString(), data.localId);
 
       navigate("/dashboard", { replace: true });
-
-      // retrieve db
-      console.log();
-      const dbData = await fetch(
-        `https://expensy-db-default-rtdb.firebaseio.com/users/${authCtx.id}/expenses.json`,
-        {
-          method: "GET",
-        }
-      );
-
-      const dbResponse = await dbData.json();
-      console.log(dbResponse);
-
-      const arr = Object.values(dbResponse);
-      console.log(arr);
-
-      //retrieve ends here
     } catch (error) {
       console.log(error.message);
     }

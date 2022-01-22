@@ -1,6 +1,7 @@
 import { getActiveElement } from "@testing-library/user-event/dist/utils";
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import getExpenses from "../modules/getExpenses";
 
 let logoutTimer;
 
@@ -43,6 +44,7 @@ export const AuthContextProvider = (props) => {
     initialToken = tokenData.token;
   }
   const [token, setToken] = useState(initialToken);
+  const [data, setData] = useState([]);
   const [id, setId] = useState("");
   const navigate = useNavigate();
 
@@ -53,8 +55,9 @@ export const AuthContextProvider = (props) => {
     if (logoutTimer) clearTimeout(logoutTimer);
   }, []);
 
-  const loginHandler = (token, expirationTime) => {
+  const loginHandler = (token, expirationTime, userId) => {
     setToken(token);
+    localStorage.setItem("userId", userId);
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime);
     const remainingTime = calculateRemainingTime(expirationTime);
@@ -62,8 +65,8 @@ export const AuthContextProvider = (props) => {
     logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
 
-  const storeIdHandler = (id) => {
-    setId(id);
+  const storeIdHandler = (userId) => {
+    setId(userId);
   };
 
   useEffect(() => {
@@ -71,6 +74,13 @@ export const AuthContextProvider = (props) => {
       logoutTimer = setTimeout(logoutHandler, tokenData.remainingTime);
     }
   }, [tokenData, logoutHandler]);
+
+  useEffect(() => {
+    if (token) {
+      const data = getExpenses(id);
+      setData(data);
+    }
+  }, [token, id]);
 
   const contextValue = {
     token: token,

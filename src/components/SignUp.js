@@ -1,9 +1,11 @@
 import { useRef, Fragment, useState, useContext } from "react";
-import { Link, useNavigate, Navigate, location } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import Layout from "./Layout";
+import createUser from "../modules/createUser.js";
 
 export default function SignUp() {
+  const API_KEY = "AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc";
+
   const [loading, setLoading] = useState(false);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
@@ -14,26 +16,12 @@ export default function SignUp() {
   const createAccHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
+
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-    //const token = "Token";
 
     try {
-      const res = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
+      const res = await createUser(API_KEY, enteredEmail, enteredPassword);
       if (!res.ok) {
         const { error } = await res.json();
         console.log(error.message);
@@ -41,19 +29,18 @@ export default function SignUp() {
       }
       const data = await res.json();
       console.log(data);
-      //store db
+
       authCtx.storeId(data.localId);
+
       const expirationTime = new Date(
         new Date().getTime() + +data.expiresIn * 1000
       );
-      authCtx.login(data.idToken, expirationTime.toISOString());
 
-      //console.log(!!authCtx.token);
+      authCtx.login(data.idToken, expirationTime.toISOString());
       navigate("/dashboard", { replace: true });
-      //console.log(data);
-      //console.log("Account was created!");
+      console.log(authCtx.id);
     } catch (error) {
-      //console.log(error.message);
+      console.log(error.message);
     } finally {
       setLoading(false);
     }

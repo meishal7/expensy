@@ -1,11 +1,5 @@
 import SignUp from "./components/SignUp";
-import {
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import AuthContext from "./context/AuthContext";
 import { Fragment, useContext, useState } from "react";
@@ -16,68 +10,70 @@ import Expenses from "./components/Expenses";
 import ExpenseForm from "./components/ExpenseForm";
 import YearFilter from "./components/YearFilter";
 import Chart from "./components/Chart";
+import storeNewExpense from "./modules/storeNewExpense";
 
-const DUMMY_EXPENSES = [
-  {
-    id: Math.random() * 5,
-    title: "dummy",
-    cost: 1000,
-    month: 1,
-    day: "01",
-    year: 2022,
-  },
-  {
-    id: Math.random() * 5,
-    title: "dummy",
-    cost: 1000,
-    month: 1,
-    day: "01",
-    year: 2021,
-  },
-  {
-    id: Math.random() * 5,
-    title: "dummy",
-    cost: 2000,
-    month: 1,
-    day: "01",
-    year: 2021,
-  },
-  {
-    id: Math.random() * 5,
-    title: "dummy1",
-    cost: 1000,
-    month: 2,
-    day: "01",
-    year: 2021,
-  },
-  {
-    id: Math.random() * 5,
-    title: "dummy",
-    cost: 1000,
-    month: 11,
-    day: "01",
-    year: 2019,
-  },
-  {
-    id: Math.random() * 5,
-    title: "dummy",
-    cost: 1000,
-    month: 12,
-    day: "01",
-    year: 2019,
-  },
-  {
-    id: Math.random() * 5,
-    title: "dummy",
-    cost: 1000,
-    month: 12,
-    day: "01",
-    year: 2019,
-  },
-];
+// const DUMMY_EXPENSES = [
+//   {
+//     id: Math.random() * 5,
+//     title: "dummy",
+//     cost: 1000,
+//     month: 1,
+//     day: "01",
+//     year: 2022,
+//   },
+//   {
+//     id: Math.random() * 5,
+//     title: "dummy",
+//     cost: 1000,
+//     month: 1,
+//     day: "01",
+//     year: 2021,
+//   },
+//   {
+//     id: Math.random() * 5,
+//     title: "dummy",
+//     cost: 2000,
+//     month: 1,
+//     day: "01",
+//     year: 2021,
+//   },
+//   {
+//     id: Math.random() * 5,
+//     title: "dummy1",
+//     cost: 1000,
+//     month: 2,
+//     day: "01",
+//     year: 2021,
+//   },
+//   {
+//     id: Math.random() * 5,
+//     title: "dummy",
+//     cost: 1000,
+//     month: 11,
+//     day: "01",
+//     year: 2019,
+//   },
+//   {
+//     id: Math.random() * 5,
+//     title: "dummy",
+//     cost: 1000,
+//     month: 12,
+//     day: "01",
+//     year: 2019,
+//   },
+//   {
+//     id: Math.random() * 5,
+//     title: "dummy",
+//     cost: 1000,
+//     month: 12,
+//     day: "01",
+//     year: 2019,
+//   },
+// ];
 
 function App() {
-  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+  const expensesFromStorage = localStorage.getItem("expenses");
+  const [expenses, setExpenses] = useState([]);
   const [selectedYear, setYear] = useState(2022);
   const [isEditingForm, setIsEditing] = useState(false);
 
@@ -90,27 +86,14 @@ function App() {
   };
 
   const submitExpenseHandler = async (data) => {
-    // store in db
-
-    const res = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${authCtx.id}/expenses.json`,
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-type": "application/json",
-        },
-      }
-    );
-    const dataBack = await res.json();
-    //console.log(dataBack);
-
-    // store in db ends here
+    // Store new expense in db
+    await storeNewExpense(data, authCtx.id);
 
     const expenseData = {
       ...data,
       id: Math.random().toString(),
     };
+
     setExpenses((prevExpenses) => [expenseData, ...prevExpenses]);
     setIsEditing(false);
   };
@@ -122,11 +105,18 @@ function App() {
   const authCtx = useContext(AuthContext);
   const location = useLocation();
 
+  const getExpensesHandler = (expensesFromDB, expensesID) => {
+    setExpenses((prevExpenses) => [...expensesFromDB, ...prevExpenses]);
+  };
+
   return (
     <Fragment>
       <Routes>
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/log-in" element={<LogIn />} />
+        <Route
+          path="/log-in"
+          element={<LogIn onLogin={getExpensesHandler} />}
+        />
         <Route
           path="/dashboard"
           element={

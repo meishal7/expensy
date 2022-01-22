@@ -1,5 +1,14 @@
 import React from "react";
 const Expense = (props) => {
+  // const deleteExpenseHandler = async (event)=>{
+  //   const res = await fetch(
+  //     `https://expensy-db-default-rtdb.firebaseio.com/users/${authCtx.id}/expenses/json`,
+  //     {
+  //       method: "GET",
+  //     }
+  //   );
+
+  // }
   return (
     <React.Fragment>
       <div style={{ border: "black solid 1px" }}>
