@@ -57,6 +57,7 @@ export const AuthContextProvider = (props) => {
 
   const loginHandler = (token, expirationTime, userId) => {
     setToken(token);
+    setId(userId);
     localStorage.setItem("userId", userId);
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime);
@@ -65,9 +66,9 @@ export const AuthContextProvider = (props) => {
     logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
 
-  const storeIdHandler = (userId) => {
-    setId(userId);
-  };
+  // const storeIdHandler = (userId) => {
+  //   setId(userId);
+  // };
 
   useEffect(() => {
     if (tokenData) {
@@ -87,7 +88,7 @@ export const AuthContextProvider = (props) => {
     login: loginHandler,
     logout: logoutHandler,
     id: id,
-    storeId: storeIdHandler,
+    //storeId: storeIdHandler,
   };
 
   return (

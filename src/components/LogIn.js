@@ -1,42 +1,50 @@
-import { useRef, useContext, Fragment } from "react";
+import { useRef, useContext, Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import getExpenses from "../modules/getExpenses";
-import loginUser from "../modules/loginUser";
+import authFetch from "../modules/authFetch";
 
 export default function LogIn(props) {
-  const API_KEY = "AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc";
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  const authCtx = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const logInHandler = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    try {
-      const res = await loginUser(API_KEY, enteredEmail, enteredPassword);
+    const API_KEY = "AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc";
+    const url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
 
-      if (!res.ok) {
-        throw new Error("Authentication failed.");
-      }
-      const data = await res.json();
-      authCtx.storeId(data.localId);
+    const fetchObj = {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      const expirationTime = new Date(
-        new Date().getTime() + +data.expiresIn * 1000
-      );
+    const data = await authFetch(url, API_KEY, fetchObj);
 
-      authCtx.login(data.idToken, expirationTime.toISOString(), data.localId);
+    //authCtx.storeId(data.localId);
 
-      navigate("/dashboard", { replace: true });
-    } catch (error) {
-      console.log(error.message);
-    }
+    const expirationTime = new Date(
+      new Date().getTime() + +data.expiresIn * 1000
+    );
+
+    authCtx.login(data.idToken, expirationTime.toISOString(), data.localId);
+    setLoading(false);
+    navigate("/dashboard", { replace: true });
   };
 
   return (

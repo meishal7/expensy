@@ -1,11 +1,9 @@
 import { useRef, Fragment, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import createUser from "../modules/createUser.js";
+import authFetch from "../modules/authFetch";
 
 export default function SignUp() {
-  const API_KEY = "AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc";
-
   const [loading, setLoading] = useState(false);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
@@ -16,34 +14,38 @@ export default function SignUp() {
   const createAccHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
+    console.log("hfhhhh");
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    try {
-      const res = await createUser(API_KEY, enteredEmail, enteredPassword);
-      if (!res.ok) {
-        const { error } = await res.json();
-        console.log(error.message);
-        throw new Error(error.message);
-      }
-      const data = await res.json();
-      console.log(data);
+    const API_KEY = "AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc";
+    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=`;
+    const fetchObj = {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      authCtx.storeId(data.localId);
+    const data = await authFetch(url, API_KEY, fetchObj);
+    console.log(data);
 
-      const expirationTime = new Date(
-        new Date().getTime() + +data.expiresIn * 1000
-      );
+    // authCtx.storeId(data.localId);
+    // console.log(authCtx.id);
 
-      authCtx.login(data.idToken, expirationTime.toISOString());
-      navigate("/dashboard", { replace: true });
-      console.log(authCtx.id);
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      setLoading(false);
-    }
+    const expirationTime = new Date(
+      new Date().getTime() + +data.expiresIn * 1000
+    );
+
+    authCtx.login(data.idToken, expirationTime.toISOString(), data.localId);
+    setLoading(false);
+    navigate("/dashboard", { replace: true });
   };
 
   return (
