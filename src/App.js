@@ -2,7 +2,7 @@ import SignUp from "./components/SignUp";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import AuthContext from "./context/AuthContext";
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import Layout from "./components/Layout";
 import Account from "./components/Account";
 import Budget from "./components/Budget";
@@ -11,71 +11,34 @@ import ExpenseForm from "./components/ExpenseForm";
 import YearFilter from "./components/YearFilter";
 import Chart from "./components/Chart";
 import storeNewExpense from "./modules/storeNewExpense";
-
-// const DUMMY_EXPENSES = [
-//   {
-//     id: Math.random() * 5,
-//     title: "dummy",
-//     cost: 1000,
-//     month: 1,
-//     day: "01",
-//     year: 2022,
-//   },
-//   {
-//     id: Math.random() * 5,
-//     title: "dummy",
-//     cost: 1000,
-//     month: 1,
-//     day: "01",
-//     year: 2021,
-//   },
-//   {
-//     id: Math.random() * 5,
-//     title: "dummy",
-//     cost: 2000,
-//     month: 1,
-//     day: "01",
-//     year: 2021,
-//   },
-//   {
-//     id: Math.random() * 5,
-//     title: "dummy1",
-//     cost: 1000,
-//     month: 2,
-//     day: "01",
-//     year: 2021,
-//   },
-//   {
-//     id: Math.random() * 5,
-//     title: "dummy",
-//     cost: 1000,
-//     month: 11,
-//     day: "01",
-//     year: 2019,
-//   },
-//   {
-//     id: Math.random() * 5,
-//     title: "dummy",
-//     cost: 1000,
-//     month: 12,
-//     day: "01",
-//     year: 2019,
-//   },
-//   {
-//     id: Math.random() * 5,
-//     title: "dummy",
-//     cost: 1000,
-//     month: 12,
-//     day: "01",
-//     year: 2019,
-//   },
-// ];
+import getExpenses from "./modules/getExpenses";
 
 function App() {
-  const expensesFromStorage = localStorage.getItem("expenses");
+  const authCtx = useContext(AuthContext);
   const [expenses, setExpenses] = useState([]);
   const [selectedYear, setYear] = useState(2022);
   const [isEditingForm, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchExpenses(id) {
+      const expenses = await getExpenses(id);
+      console.log(expenses);
+      const data = Object.keys(expenses)?.map((id) => ({
+        ...expenses[id],
+        id,
+      }));
+      console.log(data);
+      setExpenses(data);
+      return data;
+    }
+    if (authCtx.token && authCtx.id) {
+      console.log(authCtx.id);
+      fetchExpenses(authCtx.id);
+    }
+  }, [authCtx.token, authCtx.id]);
+
+  const location = useLocation();
 
   const isEditingFormHandler = () => {
     setIsEditing(true);
@@ -86,37 +49,34 @@ function App() {
   };
 
   const submitExpenseHandler = async (data) => {
+    setLoading(true);
     // Store new expense in db
     await storeNewExpense(data, authCtx.id);
+    setLoading(false);
 
     const expenseData = {
       ...data,
       id: Math.random().toString(),
     };
 
-    setExpenses((prevExpenses) => [expenseData, ...prevExpenses]);
+    setExpenses((prevExpenses) => [
+      expenseData,
+      ...authCtx.data,
+      ...prevExpenses,
+    ]);
+
     setIsEditing(false);
   };
-
+  console.log(expenses);
   const filteredExpenses = expenses.filter((expense) => {
     return expense.year === selectedYear;
   });
-
-  const authCtx = useContext(AuthContext);
-  const location = useLocation();
-
-  const getExpensesHandler = (expensesFromDB, expensesID) => {
-    setExpenses((prevExpenses) => [...expensesFromDB, ...prevExpenses]);
-  };
 
   return (
     <Fragment>
       <Routes>
         <Route path="/sign-up" element={<SignUp />} />
-        <Route
-          path="/log-in"
-          element={<LogIn onLogin={getExpensesHandler} />}
-        />
+        <Route path="/log-in" element={<LogIn />} />
         <Route
           path="/dashboard"
           element={

@@ -1,7 +1,6 @@
 import { getActiveElement } from "@testing-library/user-event/dist/utils";
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import getExpenses from "../modules/getExpenses";
 
 let logoutTimer;
 
@@ -11,7 +10,6 @@ const AuthContext = React.createContext({
   login: (token) => {},
   logout: () => {},
   id: "",
-  storeId: (id) => {},
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -24,7 +22,7 @@ const calculateRemainingTime = (expirationTime) => {
 const retrieveStoredToken = (props) => {
   const storedToken = localStorage.getItem("token");
   const ctoredExpirationDate = localStorage.getItem("expirationTime");
-
+  const storedId = localStorage.getItem("userId");
   const remainingTime = calculateRemainingTime(ctoredExpirationDate);
 
   if (remainingTime <= 3600) {
@@ -34,18 +32,20 @@ const retrieveStoredToken = (props) => {
   return {
     token: storedToken,
     remainingTime: remainingTime,
+    id: storedId,
   };
 };
 
 export const AuthContextProvider = (props) => {
   const tokenData = retrieveStoredToken();
+  let idData;
   let initialToken;
   if (tokenData) {
     initialToken = tokenData.token;
+    idData = tokenData.id;
   }
   const [token, setToken] = useState(initialToken);
-  const [data, setData] = useState([]);
-  const [id, setId] = useState("");
+  const [id, setId] = useState(idData);
   const navigate = useNavigate();
 
   const logoutHandler = useCallback(() => {
@@ -66,29 +66,17 @@ export const AuthContextProvider = (props) => {
     logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
 
-  // const storeIdHandler = (userId) => {
-  //   setId(userId);
-  // };
-
   useEffect(() => {
     if (tokenData) {
       logoutTimer = setTimeout(logoutHandler, tokenData.remainingTime);
     }
   }, [tokenData, logoutHandler]);
 
-  useEffect(() => {
-    if (token) {
-      const data = getExpenses(id);
-      setData(data);
-    }
-  }, [token, id]);
-
   const contextValue = {
     token: token,
     login: loginHandler,
     logout: logoutHandler,
     id: id,
-    //storeId: storeIdHandler,
   };
 
   return (
