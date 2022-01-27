@@ -10,35 +10,45 @@ import Expenses from "./components/Expenses";
 import ExpenseForm from "./components/ExpenseForm";
 import YearFilter from "./components/YearFilter";
 import Chart from "./components/Chart";
-import storeNewExpense from "./modules/storeNewExpense";
-import getExpenses from "./modules/getExpenses";
+// import storeNewExpense from "./modules/storeNewExpense";
+// import getExpenses from "./modules/getExpenses";
+import ExpensesContext from "./context/ExpensesContext";
 
 function App() {
   const authCtx = useContext(AuthContext);
-  const [expenses, setExpenses] = useState([]);
+  const expCtx = useContext(ExpensesContext);
+  //const [expenses, setExpenses] = useState([]);
   const [selectedYear, setYear] = useState(2022);
   const [isEditingForm, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function fetchExpenses(id) {
-      const expenses = await getExpenses(id);
-      console.log(expenses);
-      const data = Object.keys(expenses)?.map((id) => ({
-        ...expenses[id],
-        id,
-      }));
-      console.log(data);
-      setExpenses(data);
-      return data;
-    }
-    if (authCtx.token && authCtx.id) {
-      console.log(authCtx.id);
-      fetchExpenses(authCtx.id);
-    }
-  }, [authCtx.token, authCtx.id]);
-
   const location = useLocation();
+
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  useEffect(() => {
+    if (token) {
+      expCtx.getExp(userId);
+    }
+  }, [token]);
+  //expCtx.getExp(authCtx.id);
+
+  // Get expenses from db
+  // useEffect(() => {
+  //   expCtx.getExp(authCtx.id);
+  // async function fetchExpenses(id) {
+  //   const expenses = await getExpenses(id);
+  //   const data = Object.keys(expenses)?.map((id) => ({
+  //     ...expenses[id],
+  //     id,
+  //   }));
+  //   setExpenses(data);
+  //   return data;
+  // }
+  // if (authCtx.token && authCtx.id) {
+  //   fetchExpenses(authCtx.id);
+  // }
+  //}, [authCtx.token, authCtx.id]);
 
   const isEditingFormHandler = () => {
     setIsEditing(true);
@@ -47,28 +57,26 @@ function App() {
   const stopIsEditingFormHandler = () => {
     setIsEditing(false);
   };
-
+  // Store new expense in db
   const submitExpenseHandler = async (data) => {
     setLoading(true);
-    // Store new expense in db
-    await storeNewExpense(data, authCtx.id);
+    expCtx.storeNewExp(userId, data);
+
+    //await storeNewExpense(data, authCtx.id);
+    //const expenses = await getExpenses(authCtx.id);
+
+    // const expensesData = Object.keys(expenses)?.map((id) => ({
+    //   ...expenses[id],
+    //   id,
+    // }));
+
+    //setExpenses((prevExpenses) => expensesData);
+
     setLoading(false);
-
-    const expenseData = {
-      ...data,
-      id: Math.random().toString(),
-    };
-
-    setExpenses((prevExpenses) => [
-      expenseData,
-      ...authCtx.data,
-      ...prevExpenses,
-    ]);
-
     setIsEditing(false);
   };
-  console.log(expenses);
-  const filteredExpenses = expenses.filter((expense) => {
+
+  const filteredExpenses = expCtx.expenses.filter((expense) => {
     return expense.year === selectedYear;
   });
 

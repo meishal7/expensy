@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import ExpensesContext from "../context/ExpensesContext";
 import Expense from "./Expense";
 const Expenses = (props) => {
+  const expCtx = useContext(ExpensesContext);
+
+  const deleteHandler = (id) => {
+    expCtx.delete(id);
+  };
+
   return (
     <React.Fragment>
       {props.expenses.length === 0 ? (
@@ -8,12 +15,14 @@ const Expenses = (props) => {
       ) : (
         props.expenses.map((expense) => (
           <Expense
+            onDelete={deleteHandler}
             key={expense.id}
             title={expense.title}
             cost={expense.cost}
             month={expense.month}
             day={expense.day}
             year={expense.year}
+            //id={expense.id}
           />
         ))
       )}

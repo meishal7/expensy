@@ -3,13 +3,16 @@ import { BrowserRouter } from "react-router-dom";
 import { render } from "react-dom";
 import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
+import { ExpensesContextProvider } from "./context/ExpensesContext";
 
 const rootElement = document.getElementById("root");
 render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
-        <App />
+        <ExpensesContextProvider>
+          <App />
+        </ExpensesContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>,

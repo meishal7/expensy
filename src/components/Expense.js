@@ -1,24 +1,18 @@
 import React from "react";
-const Expense = (props) => {
-  // const deleteExpenseHandler = async (event)=>{
-  //   const res = await fetch(
-  //     `https://expensy-db-default-rtdb.firebaseio.com/users/${authCtx.id}/expenses/json`,
-  //     {
-  //       method: "GET",
-  //     }
-  //   );
 
-  // }
+const Expense = ({ title, cost, month, day, year, id, onDelete }) => {
+  onDelete(id);
   return (
     <React.Fragment>
       <div style={{ border: "black solid 1px" }}>
-        <div>{props.title}</div>
-        <div>{props.cost}</div>
-        <div>{props.month}</div>
-        <div>{props.day}</div>
-        <div>{props.year}</div>
+        <div>{title}</div>
+        <div>{cost}</div>
+        <div>{month}</div>
+        <div>{day}</div>
+        <div>{year}</div>
+
         <button>Edit</button>
-        <button>Delete</button>
+        <button onClick={onDelete}>Delete</button>
       </div>
     </React.Fragment>
   );
