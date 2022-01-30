@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React from "react";
 import ReactDOM from "react-dom";
 
-const ErrorModaleStyle = styled.div`
+const ErrorModalStyle = styled.div`
   border: 1px solid black;
   position: absolute;
   background: pink;
@@ -10,16 +10,16 @@ const ErrorModaleStyle = styled.div`
 
 const ErrorModaleOverlay = (props) => {
   return (
-    <ErrorModaleStyle>
+    <ErrorModalStyle>
       <header>{props.title}</header>
       <p>{props.message}</p>
       <button type="button" onClick={props.onClose}>
         Close
       </button>
-    </ErrorModaleStyle>
+    </ErrorModalStyle>
   );
 };
-const ErrorModale = (props) => {
+const ErrorModal = (props) => {
   return (
     <React.Fragment>
       {ReactDOM.createPortal(
@@ -33,4 +33,4 @@ const ErrorModale = (props) => {
     </React.Fragment>
   );
 };
-export default ErrorModale;
+export default ErrorModal;

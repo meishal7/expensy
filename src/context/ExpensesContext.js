@@ -11,10 +11,41 @@ const ExpensesContext = React.createContext({
 
 const userId = localStorage.getItem("userId");
 
+const editExp = async (expId, expData) => {
+  console.log("exp data from exp is");
+  const fake = {
+    test: "test",
+  };
+
+  try {
+    console.log(expId);
+    const response = await fetch(
+      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}.json`,
+      {
+        method: "PATCH",
+        body: { test: "test" },
+        // headers: {
+        //   "Content-type": "application/json",
+        // },
+      }
+    );
+    // if (response.status >= 400 && response.status < 600) {
+    //   throw new Error("Bad response from server");
+    // }
+    if (!response.ok) console.log(response.status);
+
+    console.log("res from editing", response);
+    return response;
+  } catch (error) {
+    console.log("Fetch error: ", error);
+    alert(error);
+  }
+};
+
 const deleteExp = async (expId) => {
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}`,
+      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}.json`,
       {
         method: "DELETE",
       }
@@ -44,7 +75,7 @@ const getExp = async (userId) => {
       throw new Error("Bad response from server");
     }
 
-    const expenses = await response.json();
+    const expenses = (await response.json()) || {};
     const data = Object.keys(expenses)?.map((id) => ({
       ...expenses[id],
       id,
@@ -110,12 +141,17 @@ export const ExpensesContextProvider = (props) => {
     console.log("res from store new exp", res);
   };
 
+  const editExpHandler = (expId, expdata) => {
+    editExp(expId, expdata);
+  };
+
   const expContextValue = {
     expenses: expenses,
     expId: expId,
     delete: deleteExpHandler,
     getExp: getExpHandler,
     storeNewExp: storeNewExpHandler,
+    editExp: editExpHandler,
   };
 
   return (

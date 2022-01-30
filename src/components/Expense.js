@@ -1,7 +1,6 @@
 import React from "react";
 
-const Expense = ({ title, cost, month, day, year, id, onDelete }) => {
-  onDelete(id);
+const Expense = ({ title, cost, month, day, year, id, onDelete, onEdit }) => {
   return (
     <React.Fragment>
       <div style={{ border: "black solid 1px" }}>
@@ -11,8 +10,19 @@ const Expense = ({ title, cost, month, day, year, id, onDelete }) => {
         <div>{day}</div>
         <div>{year}</div>
 
-        <button>Edit</button>
-        <button onClick={onDelete}>Delete</button>
+        <button
+          onClick={() => {
+            const expData = {
+              title: title,
+              cost: cost,
+              id: id,
+            };
+            onEdit(expData);
+          }}
+        >
+          Edit
+        </button>
+        <button onClick={() => onDelete(id)}>Delete</button>
       </div>
     </React.Fragment>
   );

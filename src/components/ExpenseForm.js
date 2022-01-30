@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ErrorModule from "./ErrorModale";
+import ErrorModal from "./ErrorModal";
 import { format } from "date-fns";
 
 const ExpenseForm = (props) => {
@@ -20,6 +20,7 @@ const ExpenseForm = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    
     // Input validation
     if (title.trim().length === 0) {
       setError({
@@ -64,7 +65,7 @@ const ExpenseForm = (props) => {
   return (
     <React.Fragment>
       {error && (
-        <ErrorModule
+        <ErrorModal
           title={error.title}
           message={error.message}
           onClose={errorHandler}
