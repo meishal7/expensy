@@ -1,11 +1,13 @@
 import { useRef, Fragment, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import BudgetContext from "../context/BudgetContext";
 import authFetch from "../modules/authFetch";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const authCtx = useContext(AuthContext);
+  const budgCtx = useContext(BudgetContext);
   const navigate = useNavigate();
 
   const emailInputRef = useRef();
@@ -14,7 +16,6 @@ export default function SignUp() {
   const createAccHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
-    console.log("hfhhhh");
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
@@ -34,16 +35,14 @@ export default function SignUp() {
     };
 
     const data = await authFetch(url, API_KEY, fetchObj);
-    console.log(data);
-
-    // authCtx.storeId(data.localId);
-    // console.log(authCtx.id);
 
     const expirationTime = new Date(
       new Date().getTime() + +data.expiresIn * 1000
     );
 
     authCtx.login(data.idToken, expirationTime.toISOString(), data.localId);
+    budgCtx.storeDefaultBudget();
+
     setLoading(false);
     navigate("/dashboard", { replace: true });
   };

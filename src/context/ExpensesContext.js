@@ -7,6 +7,9 @@ const ExpensesContext = React.createContext({
   delete: (expId) => {},
   getExp: (userId) => {},
   storeNewExp: (expenseData, userId) => {},
+  editExp: (expdata) => {},
+  // editingExp: false,
+  // setEditing: (editingExp) => {},
 });
 
 const userId = localStorage.getItem("userId");
@@ -85,6 +88,10 @@ const getExp = async (userId) => {
 };
 
 const storeNewExp = async (userId, expenseData) => {
+  const storedBudget = localStorage.getItem("budget");
+  if (storedBudget === 0) {
+    throw new Error("You did not set up a monthly budget.");
+  }
   try {
     const response = await fetch(
       `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
@@ -141,11 +148,11 @@ export const ExpensesContextProvider = (props) => {
 
   const editExpHandler = async (expdata) => {
     setLoading(true);
+
     const res = await editExp(expdata);
     const expenses = await getExp(userId);
     setExpenses((prevExpenses) => expenses);
     setLoading(false);
-
   };
 
   const expContextValue = {
@@ -155,6 +162,8 @@ export const ExpensesContextProvider = (props) => {
     getExp: getExpHandler,
     storeNewExp: storeNewExpHandler,
     editExp: editExpHandler,
+    // editingExp: editingExp,
+    // setEditing: setEditing,
   };
 
   return (

@@ -83,12 +83,13 @@ const EditModal = ({
                 };
 
                 expCtx.editExp(changedData);
-                // saveChanges(id, changedData);
+
+                cancelEditing(false);
               }}
             >
               Save
             </button>
-            <button type="button" onClick={cancelEditing}>
+            <button type="button" onClick={() => cancelEditing(false)}>
               Cancel
             </button>
           </form>

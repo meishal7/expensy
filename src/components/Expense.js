@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import ExpensesContext from "../context/ExpensesContext";
-import EditModal from "./EditModal";
+import EditModal from "./ExpEditModal";
 
 const Expense = ({ title, cost, month, day, year, id, onDelete, onEdit }) => {
   const [editingExp, setEditing] = useState(false);
@@ -37,7 +37,7 @@ const Expense = ({ title, cost, month, day, year, id, onDelete, onEdit }) => {
           title={title}
           cost={cost}
           id={id}
-          cancelEditing={() => setEditing(false)}
+          cancelEditing={setEditing}
         />
       )}
     </React.Fragment>

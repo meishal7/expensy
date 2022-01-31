@@ -40,10 +40,12 @@ export const AuthContextProvider = (props) => {
   const tokenData = retrieveStoredToken();
   let idData;
   let initialToken;
+
   if (tokenData) {
     initialToken = tokenData.token;
     idData = tokenData.id;
   }
+
   const [token, setToken] = useState(initialToken);
   const [id, setId] = useState(idData);
   const navigate = useNavigate();
@@ -55,12 +57,13 @@ export const AuthContextProvider = (props) => {
     if (logoutTimer) clearTimeout(logoutTimer);
   }, []);
 
-  const loginHandler = (token, expirationTime, userId) => {
+  const loginHandler = (token, expirationTime, userId, email) => {
     setToken(token);
     setId(userId);
     localStorage.setItem("userId", userId);
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime);
+    localStorage.setItem("email", email);
     const remainingTime = calculateRemainingTime(expirationTime);
 
     logoutTimer = setTimeout(logoutHandler, remainingTime);
