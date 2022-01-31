@@ -11,19 +11,16 @@ const ExpensesContext = React.createContext({
 
 const userId = localStorage.getItem("userId");
 
-const editExp = async (expId, expData) => {
+const editExp = async (expData) => {
   console.log("exp data from exp is");
-  const fake = {
-    test: "test",
-  };
 
   try {
-    console.log(expId);
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}.json`,
+      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expData.id}.json`,
       {
         method: "PATCH",
-        body: { test: "test" },
+        body: JSON.stringify(expData),
+
         // headers: {
         //   "Content-type": "application/json",
         // },
@@ -116,6 +113,7 @@ export const ExpensesContextProvider = (props) => {
   const [expId, setExpId] = useState("");
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [editingExp, setEditing] = useState(false);
 
   const deleteExpHandler = async (expId) => {
     setLoading(true);
@@ -141,8 +139,13 @@ export const ExpensesContextProvider = (props) => {
     console.log("res from store new exp", res);
   };
 
-  const editExpHandler = (expId, expdata) => {
-    editExp(expId, expdata);
+  const editExpHandler = async (expdata) => {
+    setLoading(true);
+    const res = await editExp(expdata);
+    const expenses = await getExp(userId);
+    setExpenses((prevExpenses) => expenses);
+    setLoading(false);
+
   };
 
   const expContextValue = {

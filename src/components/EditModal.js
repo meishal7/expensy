@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import { format } from "date-fns";
+import ExpensesContext from "../context/ExpensesContext";
 
 const EditModalStyle = styled.div`
   border: 1px solid black;
@@ -19,6 +20,8 @@ const EditModal = ({
   const [title, setTitle] = useState(ptitle);
   const [cost, setCost] = useState(pcost);
   const [date, setDate] = useState(" ");
+
+  const expCtx = useContext(ExpensesContext);
 
   const titleHandler = (event) => {
     setTitle(event.target.value);
@@ -78,12 +81,14 @@ const EditModal = ({
                   cost: cost,
                   id: id,
                 };
-                saveChanges(id, changedData);
+
+                expCtx.editExp(changedData);
+                // saveChanges(id, changedData);
               }}
             >
               Save
             </button>
-            <button type="button" onClick={() => cancelEditing(false)}>
+            <button type="button" onClick={cancelEditing}>
               Cancel
             </button>
           </form>
