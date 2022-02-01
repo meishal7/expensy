@@ -10,7 +10,7 @@ const EditModalStyle = styled.div`
   background: pink;
 `;
 
-const EditModal = ({
+const ExpEditModal = ({
   title: ptitle,
   cost: pcost,
   saveChanges,
@@ -100,4 +100,4 @@ const EditModal = ({
   );
 };
 
-export default EditModal;
+export default ExpEditModal;

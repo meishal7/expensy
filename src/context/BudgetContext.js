@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const BudgetContext = React.createContext({
-  budget: 0,
+  budget: 5000,
   storeBudget: (budget) => {},
   getBudget: (userId) => {},
   editBudget: (userId, budget) => {},
@@ -48,6 +48,7 @@ const getBudget = async (userId) => {
     }
 
     const data = (await response.json()) || {};
+    //console.log(data);
 
     if (
       data &&
@@ -57,8 +58,9 @@ const getBudget = async (userId) => {
       budget = 5000;
       return budget;
     }
-
-    return ({ budget } = data);
+    // const { pbudget } = data;
+    // console.log(pbudget);
+    return data.budget;
   } catch (error) {
     console.log("Fetch error: ", error);
     alert(error);

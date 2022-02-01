@@ -25,7 +25,7 @@ function App() {
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  const budget = localStorage.getItem("budget");
+  //const budget = localStorage.getItem("budget");
 
   useEffect(() => {
     if (token) {
@@ -45,7 +45,7 @@ function App() {
   const submitExpenseHandler = async (data) => {
     setLoading(true);
     expCtx.storeNewExp(userId, data);
-    budgCtx.storeBudget(userId, budget);
+    budgCtx.storeBudget(userId, budgCtx.budget);
 
     setLoading(false);
     setIsEditing(false);

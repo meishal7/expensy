@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
+import BudgetContext from "../context/BudgetContext";
 
 const EditModalStyle = styled.div`
   border: 1px solid black;
@@ -8,8 +9,9 @@ const EditModalStyle = styled.div`
   background: pink;
 `;
 
-const BudgetEditModal = ({ defBudget, onSave, onCancel }) => {
-  const [budget, setBudget] = useState(defBudget);
+const BudgetEditModal = ({ budget: pbudget, onSave, onCancel }) => {
+  const budgCtx = useContext(BudgetContext);
+  const [budget, setBudget] = useState(pbudget);
   const userId = localStorage.getItem("userId");
 
   const budgetHandler = (event) => {
@@ -21,7 +23,7 @@ const BudgetEditModal = ({ defBudget, onSave, onCancel }) => {
       {ReactDOM.createPortal(
         <div>
           <form>
-            <label htmlFor="budget">Cost</label>
+            <label htmlFor="budget">Budget</label>
             <input
               type="number"
               id="budget"
