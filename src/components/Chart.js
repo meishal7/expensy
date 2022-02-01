@@ -1,5 +1,7 @@
 import ChartBar from "./ChartBar";
 import styled from "styled-components";
+import BudgetContext from "../context/BudgetContext";
+import { useContext } from "react";
 
 const ChartStyle = styled.div`
   display: flex;
@@ -26,6 +28,8 @@ const monthNames = [
   "Dec",
 ];
 const Chart = ({ expenses }) => {
+  const budgCtx = useContext(BudgetContext);
+
   function groupBy(objectArray, property) {
     return objectArray.reduce(function (acc, obj) {
       let key = obj[property];
@@ -44,7 +48,10 @@ const Chart = ({ expenses }) => {
       {monthNames.map((month, i) => (
         <div className="candle" key={i}>
           <p>{month}</p>
-          <ChartBar amount={groupedExpenses[i + 1]} maxBudget={10000} />
+          <ChartBar
+            amount={groupedExpenses[i + 1]}
+            maxBudget={budgCtx.budget}
+          />
         </div>
       ))}
     </ChartStyle>

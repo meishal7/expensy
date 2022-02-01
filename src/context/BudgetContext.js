@@ -1,20 +1,20 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BudgetContext = React.createContext({
   budget: 0,
-  storeDefaultBudget: (budget) => {},
+  storeBudget: (budget) => {},
+  getBudget: (userId) => {},
+  editBudget: (userId, budget) => {},
 });
 
-const userId = localStorage.getItem("userId");
-
-const editBudget = async (expData) => {
+const editBudget = async (userId, budget) => {
+  const budgData = { budget: budget };
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expData.id}.json`,
+      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/budget/.json`,
       {
         method: "PATCH",
-        body: JSON.stringify(expData),
+        body: JSON.stringify(budgData),
 
         // headers: {
         //   "Content-type": "application/json",
@@ -35,9 +35,10 @@ const editBudget = async (expData) => {
 };
 
 const getBudget = async (userId) => {
+  let budget = 0;
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
+      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/budget.json`,
       {
         method: "GET",
       }
@@ -46,26 +47,32 @@ const getBudget = async (userId) => {
       throw new Error("Bad response from server");
     }
 
-    const expenses = (await response.json()) || {};
-    const data = Object.keys(expenses)?.map((id) => ({
-      ...expenses[id],
-      id,
-    }));
-    return data;
+    const data = (await response.json()) || {};
+
+    if (
+      data &&
+      Object.keys(data).length === 0 &&
+      Object.getPrototypeOf(data) === Object.prototype
+    ) {
+      budget = 5000;
+      return budget;
+    }
+
+    return ({ budget } = data);
   } catch (error) {
     console.log("Fetch error: ", error);
     alert(error);
   }
 };
 
-const storeBudget = async (userId, expenseData) => {
+const storeBudget = async (userId, budget) => {
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
+      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/budget.json`,
 
       {
         method: "POST",
-        body: JSON.stringify(expenseData),
+        body: JSON.stringify(budget),
         headers: {
           "Content-type": "application/json",
         },
@@ -84,60 +91,27 @@ const storeBudget = async (userId, expenseData) => {
 };
 
 export const BudgetContextProvider = (props) => {
-  const [budget, setBudget] = useState(0.0);
+  const [budget, setBudget] = useState(5000);
 
-  const storeDefaultBudgetHandler = () => {
-    const defBudg = 0;
-    localStorage.setItem("budget", defBudg);
+  const getBudgetHandler = async (userId) => {
+    const budget = await getBudget(userId);
+    setBudget(budget);
+    console.log(budget);
+    //localStorage.setItem("budget", budget);
   };
-  //   const [expenses, setExpenses] = useState([]);
-  //   const [loading, setLoading] = useState(false);
-  //   const [editingExp, setEditing] = useState(false);
 
-  //   const deleteExpHandler = async (expId) => {
-  //     setLoading(true);
-  //     const res = await deleteExp(expId);
-  //     const expenses = await getExp(userId);
-  //     setExpenses((prevExpenses) => expenses);
-  //     setLoading(false);
-  //   };
-
-  //   const getExpHandler = async (userId) => {
-  //     setLoading(true);
-  //     const expenses = await getExp(userId);
-  //     setExpenses((prevExpenses) => expenses);
-  //     setLoading(false);
-  //   };
-
-  //   const storeNewExpHandler = async (userId, expData) => {
-  //     setLoading(true);
-  //     const res = await storeNewExp(userId, expData);
-  //     const expenses = await getExp(userId);
-  //     setExpenses((prevExpenses) => expenses);
-  //     setLoading(false);
-  //     console.log("res from store new exp", res);
-  //   };
-
-  //   const editExpHandler = async (expdata) => {
-  //     setLoading(true);
-
-  //     const res = await editExp(expdata);
-  //     const expenses = await getExp(userId);
-  //     setExpenses((prevExpenses) => expenses);
-  //     setLoading(false);
-  //   };
+  const editBudgetHandler = async (userId, budget) => {
+    await editBudget(userId, budget);
+    const newBudget = await getBudget(userId);
+    setBudget(newBudget);
+    //localStorage.setItem("budget", newBudget);
+  };
 
   const budgetContextValue = {
     budget: budget,
-    storeDefaultBudget: storeDefaultBudgetHandler,
-    // expenses: expenses,
-    // expId: expId,
-    // delete: deleteExpHandler,
-    // getExp: getExpHandler,
-    // storeNewExp: storeNewExpHandler,
-    // editExp: editExpHandler,
-    // editingExp: editingExp,
-    // setEditing: setEditing,
+    storeBudget: storeBudget,
+    getBudget: getBudgetHandler,
+    editBudget: editBudgetHandler,
   };
 
   return (

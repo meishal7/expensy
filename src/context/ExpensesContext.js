@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import BudgetContext from "./BudgetContext";
 
 const ExpensesContext = React.createContext({
   expenses: [],
@@ -88,10 +88,6 @@ const getExp = async (userId) => {
 };
 
 const storeNewExp = async (userId, expenseData) => {
-  const storedBudget = localStorage.getItem("budget");
-  if (storedBudget === 0) {
-    throw new Error("You did not set up a monthly budget.");
-  }
   try {
     const response = await fetch(
       `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
@@ -121,6 +117,7 @@ export const ExpensesContextProvider = (props) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingExp, setEditing] = useState(false);
+  const budgCtx = useState(BudgetContext);
 
   const deleteExpHandler = async (expId) => {
     setLoading(true);
@@ -139,6 +136,7 @@ export const ExpensesContextProvider = (props) => {
 
   const storeNewExpHandler = async (userId, expData) => {
     setLoading(true);
+
     const res = await storeNewExp(userId, expData);
     const expenses = await getExp(userId);
     setExpenses((prevExpenses) => expenses);

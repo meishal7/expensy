@@ -1,12 +1,10 @@
 import { useRef, useContext, Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import BudgetContext from "../context/BudgetContext";
 import authFetch from "../modules/authFetch";
 
 export default function LogIn(props) {
   const authCtx = useContext(AuthContext);
-  const budgCtx = useContext(BudgetContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -50,7 +48,7 @@ export default function LogIn(props) {
       data.localId,
       data.email
     );
-    budgCtx.storeDefaultBudget();
+
     setLoading(false);
     navigate("/dashboard", { replace: true });
   };

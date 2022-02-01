@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
-import ExpensesContext from "../context/ExpensesContext";
-import { getDaysInMonth } from "date-fns";
 
 const EditModalStyle = styled.div`
   border: 1px solid black;
@@ -10,9 +8,9 @@ const EditModalStyle = styled.div`
   background: pink;
 `;
 
-const BudgetEditModal = ({ budget: pBudget, onSave, onCancel }) => {
-  const expCtx = useContext(ExpensesContext);
-  const [budget, setBudget] = useState(pBudget);
+const BudgetEditModal = ({ defBudget, onSave, onCancel }) => {
+  const [budget, setBudget] = useState(defBudget);
+  const userId = localStorage.getItem("userId");
 
   const budgetHandler = (event) => {
     setBudget(event.target.value);
@@ -37,8 +35,7 @@ const BudgetEditModal = ({ budget: pBudget, onSave, onCancel }) => {
             <button
               type="button"
               onClick={() => {
-                localStorage.setItem("budget", budget);
-                onSave(budget);
+                onSave(userId, budget);
                 onCancel(false);
               }}
             >

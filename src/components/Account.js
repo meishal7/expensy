@@ -1,24 +1,25 @@
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import BudgetEditModal from "./BudgetEditModal";
+import BudgetContext from "../context/BudgetContext";
 
 export default function Account() {
-  let num = 0.0;
-  let defBudget = num.toFixed(2);
-
   const email = localStorage.getItem("email");
 
+  const budgCtx = useContext(BudgetContext);
   const [editing, setEditing] = useState(false);
-  const [budget, setBudget] = useState(defBudget);
   const [pEmail, setEmail] = useState(email);
-
+  console.log(email);
+  // console.log(budgCtx.budget) = {budget: }; 
   return (
     <Fragment>
       <p>Email: {email} </p> <button>Change Email</button>
-      <p>Monthly Budget: {budget} </p>
+      <p>Monthly Budget: ${budgCtx.budget.budget} </p>
       <button type="button" onClick={() => setEditing(true)}>
         Change Budget
       </button>
-      {editing && <BudgetEditModal onSave={setBudget} onCancel={setEditing} />}
+      {editing && (
+        <BudgetEditModal onSave={budgCtx.editBudget} onCancel={setEditing} />
+      )}
     </Fragment>
   );
 }
