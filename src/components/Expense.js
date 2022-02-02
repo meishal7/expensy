@@ -1,10 +1,8 @@
-import React, { useContext, useState } from "react";
-import ExpensesContext from "../context/ExpensesContext";
-import EditModal from "./ExpEditModal";
+import React, { useState } from "react";
+import ExpEditModal from "./ExpEditModal";
 
-const Expense = ({ title, cost, month, day, year, id, onDelete, onEdit }) => {
+const Expense = ({ title, cost, month, day, year, id, onDelete }) => {
   const [editingExp, setEditing] = useState(false);
-  const expCtx = useContext(ExpensesContext);
 
   return (
     <React.Fragment>
@@ -19,21 +17,13 @@ const Expense = ({ title, cost, month, day, year, id, onDelete, onEdit }) => {
           onClick={() => {
             setEditing(true);
           }}
-          // onClick={() => {
-          //   const expData = {
-          //     title: title,
-          //     cost: cost,
-          //     id: id,
-          //   };
-          //   onEdit(expData);
-          // }}
         >
           Edit
         </button>
         <button onClick={() => onDelete(id)}>Delete</button>
       </div>
       {editingExp && (
-        <EditModal
+        <ExpEditModal
           title={title}
           cost={cost}
           id={id}

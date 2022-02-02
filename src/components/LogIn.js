@@ -2,6 +2,7 @@ import { useRef, useContext, Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import authFetch from "../modules/authFetch";
+import key from "../modules/keys";
 
 export default function LogIn(props) {
   const authCtx = useContext(AuthContext);
@@ -14,13 +15,13 @@ export default function LogIn(props) {
   const logInHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
+    const API_KEY = key();
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     console.log(enteredEmail);
     localStorage.setItem("email", enteredEmail);
 
-    const API_KEY = "AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc";
     const url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
 

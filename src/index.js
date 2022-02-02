@@ -5,6 +5,7 @@ import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ExpensesContextProvider } from "./context/ExpensesContext";
 import { BudgetContextProvider } from "./context/BudgetContext";
+import { CredentialsContextProvider } from "./context/CredentialsContext";
 
 const rootElement = document.getElementById("root");
 render(
@@ -13,7 +14,9 @@ render(
       <AuthContextProvider>
         <BudgetContextProvider>
           <ExpensesContextProvider>
-            <App />
+            <CredentialsContextProvider>
+              <App />
+            </CredentialsContextProvider>
           </ExpensesContextProvider>
         </BudgetContextProvider>
       </AuthContextProvider>

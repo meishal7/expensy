@@ -2,11 +2,14 @@ import { useRef, Fragment, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import authFetch from "../modules/authFetch";
+import key from "../modules/keys";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const API_KEY = key();
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -18,7 +21,6 @@ export default function SignUp() {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    const API_KEY = "AIzaSyCgH-T7v3yiinVHooe9Fz48Uuk1L5kvgsc";
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=`;
     const fetchObj = {
       method: "POST",

@@ -39,7 +39,24 @@ const ExpEditModal = ({
     <EditModalStyle>
       {ReactDOM.createPortal(
         <div>
-          <form>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+
+              const changedData = {
+                title: title,
+                year: +format(new Date(date), "yyyy"),
+                month: format(new Date(date), "MMM"),
+                day: format(new Date(date), "dd"),
+                cost: cost,
+                id: id,
+              };
+
+              expCtx.editExp(changedData);
+
+              cancelEditing(false);
+            }}
+          >
             <label htmlFor="expense-name">Title</label>
             <input
               type="text"
@@ -70,25 +87,7 @@ const ExpEditModal = ({
               value={date}
               onChange={dateHandler}
             />
-            <button
-              type="button"
-              onClick={() => {
-                const changedData = {
-                  title: title,
-                  year: +format(new Date(date), "yyyy"),
-                  month: format(new Date(date), "MMM"),
-                  day: format(new Date(date), "dd"),
-                  cost: cost,
-                  id: id,
-                };
-
-                expCtx.editExp(changedData);
-
-                cancelEditing(false);
-              }}
-            >
-              Save
-            </button>
+            <button type="submit">Submit</button>
             <button type="button" onClick={() => cancelEditing(false)}>
               Cancel
             </button>
