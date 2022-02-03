@@ -116,7 +116,7 @@ export const ExpensesContextProvider = (props) => {
   const [expId, setExpId] = useState("");
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [editingExp, setEditing] = useState(false);
+  //const [editingExp, setEditing] = useState(false);
   const budgCtx = useState(BudgetContext);
 
   const deleteExpHandler = async (expId) => {
@@ -160,8 +160,6 @@ export const ExpensesContextProvider = (props) => {
     getExp: getExpHandler,
     storeNewExp: storeNewExpHandler,
     editExp: editExpHandler,
-    // editingExp: editingExp,
-    // setEditing: setEditing,
   };
 
   return (

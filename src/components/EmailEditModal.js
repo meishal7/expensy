@@ -36,7 +36,7 @@ const EmailEditModal = ({ email: defemail, onCancel }) => {
                 returnSecureToken: true,
               };
               credentCtx.changeCredential(newData, API_KEY);
-              
+              onCancel(false);
             }}
           >
             <label htmlFor="email">Email</label>

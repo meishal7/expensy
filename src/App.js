@@ -45,7 +45,7 @@ function App() {
   const submitExpenseHandler = async (data) => {
     setLoading(true);
     expCtx.storeNewExp(userId, data);
-    budgCtx.storeBudget(userId, budgCtx.budget);
+    //budgCtx.storeBudget(userId, budgCtx.budget);
 
     setLoading(false);
     setIsEditing(false);

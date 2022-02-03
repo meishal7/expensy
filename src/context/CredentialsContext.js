@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+const initialEmail = localStorage.getItem("email");
+
 const CredentialsContext = React.createContext({
   email: "",
   //password: "",
@@ -30,7 +32,7 @@ const changeCredential = async (data, API_KEY) => {
     //   throw new Error("Bad response from server");
     // }
     const res = await response.json();
-    console.log(res);
+    //console.log(res);
     return res;
   } catch (error) {
     console.log("Fetch error: ", error);
@@ -97,17 +99,19 @@ const changeCredential = async (data, API_KEY) => {
 // };
 
 export const CredentialsContextProvider = (props) => {
-  const storedEmail = localStorage.getItem("email");
+  //const storedEmail = localStorage.getItem("email");
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState(storedEmail);
+  const [email, setEmail] = useState(initialEmail);
   //const [password, setPass] = useState(password);
 
   const changeCredentialHandler = async (data, API_KEY) => {
     console.log("aaa");
     setLoading(true);
     const res = await changeCredential(data, API_KEY);
+
     localStorage.setItem("email", res.email);
-    setEmail(email);
+    const newEmail = res.email;
+    setEmail(newEmail);
     setLoading(false);
   };
 

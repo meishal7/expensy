@@ -11,14 +11,14 @@ const editBudget = async (userId, budget) => {
   const budgData = { budget: budget };
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/budget/.json`,
+      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}.json`,
       {
         method: "PATCH",
         body: JSON.stringify(budgData),
 
-        // headers: {
-        //   "Content-type": "application/json",
-        // },
+        headers: {
+          "Content-type": "application/json",
+        },
       }
     );
     // if (response.status >= 400 && response.status < 600) {
@@ -26,7 +26,7 @@ const editBudget = async (userId, budget) => {
     // }
     if (!response.ok) console.log(response.status);
 
-    console.log("res from editing", response);
+    console.log("res from editing budg", response);
     return response;
   } catch (error) {
     console.log("Fetch error: ", error);
@@ -58,9 +58,11 @@ const getBudget = async (userId) => {
       budget = 5000;
       return budget;
     }
-    // const { pbudget } = data;
-    // console.log(pbudget);
-    return data.budget;
+    // returns int
+    console.log("res from get budg", data);
+    //const { budget } = data;
+    //console.log(budget);
+    return data;
   } catch (error) {
     console.log("Fetch error: ", error);
     alert(error);
@@ -73,7 +75,7 @@ const storeBudget = async (userId, budget) => {
       `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/budget.json`,
 
       {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(budget),
         headers: {
           "Content-type": "application/json",
@@ -85,6 +87,7 @@ const storeBudget = async (userId, budget) => {
     //   throw new Error("Bad response from server");
     // }
     const res = await response.json();
+    console.log("res from store budg", res);
     return res;
   } catch (error) {
     console.log("Fetch error: ", error);
@@ -93,25 +96,35 @@ const storeBudget = async (userId, budget) => {
 };
 
 export const BudgetContextProvider = (props) => {
+  const [loading, setLoading] = useState(false);
   const [budget, setBudget] = useState(5000);
 
-  const getBudgetHandler = async (userId) => {
-    const budget = await getBudget(userId);
+  const storeBudgetHandler = async (userId, budget) => {
+    setLoading(true);
+    await storeBudget(userId, budget);
     setBudget(budget);
-    console.log(budget);
-    //localStorage.setItem("budget", budget);
+    setLoading(false);
+  };
+
+  const getBudgetHandler = async (userId) => {
+    setLoading(true);
+    const budget = await getBudget(userId);
+    //console.log(budget);
+    setBudget(budget);
+    setLoading(false);
   };
 
   const editBudgetHandler = async (userId, budget) => {
+    setLoading(true);
     await editBudget(userId, budget);
-    const newBudget = await getBudget(userId);
-    setBudget(newBudget);
-    //localStorage.setItem("budget", newBudget);
+    budget = await getBudget(userId);
+    setBudget(budget);
+    setLoading(false);
   };
 
   const budgetContextValue = {
     budget: budget,
-    storeBudget: storeBudget,
+    storeBudget: storeBudgetHandler,
     getBudget: getBudgetHandler,
     editBudget: editBudgetHandler,
   };

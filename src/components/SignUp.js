@@ -1,12 +1,14 @@
 import { useRef, Fragment, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import BudgetContext from "../context/BudgetContext";
 import authFetch from "../modules/authFetch";
 import key from "../modules/keys";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const authCtx = useContext(AuthContext);
+  const budgCtx = useContext(BudgetContext);
   const navigate = useNavigate();
 
   const API_KEY = key();
@@ -46,6 +48,9 @@ export default function SignUp() {
       data.localId,
       data.email
     );
+
+    budgCtx.storeBudget(data.localId, 5000);
+    console.log(budgCtx.budget);
 
     setLoading(false);
     navigate("/dashboard", { replace: true });
