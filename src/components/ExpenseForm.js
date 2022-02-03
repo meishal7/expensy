@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import ErrorModal from "./ErrorModal";
 import { format } from "date-fns";
+import { categories } from "../categories/categories";
 
 const ExpenseForm = (props) => {
   const [title, setTitle] = useState(" ");
   const [cost, setCost] = useState(" ");
   const [date, setDate] = useState(" ");
+  const [category, setCategory] = useState();
   const [error, setError] = useState();
 
   const titleHandler = (event) => {
@@ -17,10 +19,13 @@ const ExpenseForm = (props) => {
   const dateHandler = (event) => {
     setDate(event.target.value);
   };
+  const categoryHandler = (event) => {
+    setCategory(event.target.value);
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    
+
     // Input validation
     if (title.trim().length === 0) {
       setError({
@@ -50,12 +55,14 @@ const ExpenseForm = (props) => {
       month: format(new Date(date), "MMM"),
       day: format(new Date(date), "dd"),
       cost: cost,
+      category: category,
     };
 
     props.onSubmitNewExpense(expenseData);
     setTitle("");
     setDate("");
     setCost("");
+    setCategory("Choose Category");
   };
 
   const errorHandler = () => {
@@ -102,6 +109,14 @@ const ExpenseForm = (props) => {
           value={date}
           onChange={dateHandler}
         />
+        <label>Category</label>
+        <select onChange={categoryHandler}>
+          {categories.map((category, i) => (
+            <option key={i} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
         <button type="button" onClick={props.onCancel}>
           Cancel
         </button>

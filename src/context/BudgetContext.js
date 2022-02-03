@@ -60,8 +60,8 @@ const getBudget = async (userId) => {
     }
     // returns int
     console.log("res from get budg", data);
-    //const { budget } = data;
-    //console.log(budget);
+    // const { budget } = data;
+    // console.log(budget);
     return data;
   } catch (error) {
     console.log("Fetch error: ", error);
@@ -118,6 +118,7 @@ export const BudgetContextProvider = (props) => {
     setLoading(true);
     await editBudget(userId, budget);
     budget = await getBudget(userId);
+    console.log(budget);
     setBudget(budget);
     setLoading(false);
   };

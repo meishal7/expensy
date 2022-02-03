@@ -2,7 +2,6 @@ import styled from "styled-components";
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import AuthContext from "../context/AuthContext";
-import key from "../modules/keys";
 import CredentialsContext from "../context/CredentialsContext";
 
 const EditModalStyle = styled.div`
@@ -16,7 +15,7 @@ const EmailEditModal = ({ email: defemail, onCancel }) => {
   const credentCtx = useContext(CredentialsContext);
   const [email, setEmail] = useState(defemail);
 
-  const API_KEY = key();
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
   const emailHandler = (event) => {
     setEmail(event.target.value);

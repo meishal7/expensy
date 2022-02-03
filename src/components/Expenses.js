@@ -20,6 +20,7 @@ const Expenses = (props) => {
             key={expense.id}
             title={expense.title}
             cost={expense.cost}
+            category={expense.category}
             month={expense.month}
             day={expense.day}
             year={expense.year}

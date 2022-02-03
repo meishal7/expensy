@@ -4,17 +4,11 @@ const initialEmail = localStorage.getItem("email");
 
 const CredentialsContext = React.createContext({
   email: "",
-  //password: "",
+  password: "********",
   changeCredential: (data, API_KEY) => {},
 });
 
 const changeCredential = async (data, API_KEY) => {
-  // const newData = {
-  //   idToken: token,
-  //   email: newCredent,
-  //   returnSecureToken: true,
-  // };
-
   try {
     const response = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`,
@@ -105,10 +99,8 @@ export const CredentialsContextProvider = (props) => {
   //const [password, setPass] = useState(password);
 
   const changeCredentialHandler = async (data, API_KEY) => {
-    console.log("aaa");
     setLoading(true);
     const res = await changeCredential(data, API_KEY);
-
     localStorage.setItem("email", res.email);
     const newEmail = res.email;
     setEmail(newEmail);
@@ -131,7 +123,7 @@ export const CredentialsContextProvider = (props) => {
 
   const credentContextValue = {
     email: email,
-    //password: password,
+    password: "********",
     changeCredential: changeCredentialHandler,
   };
 

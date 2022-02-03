@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import BudgetContext from "../context/BudgetContext";
 import authFetch from "../modules/authFetch";
-import key from "../modules/keys";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -11,7 +10,7 @@ export default function SignUp() {
   const budgCtx = useContext(BudgetContext);
   const navigate = useNavigate();
 
-  const API_KEY = key();
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();

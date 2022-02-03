@@ -1,11 +1,12 @@
 import { useRef, useContext, Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import BudgetContext from "../context/BudgetContext";
 import authFetch from "../modules/authFetch";
-import key from "../modules/keys";
 
 export default function LogIn(props) {
   const authCtx = useContext(AuthContext);
+  const budgCtx = useContext(BudgetContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +16,7 @@ export default function LogIn(props) {
   const logInHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
-    const API_KEY = key();
+    const API_KEY = process.env.REACT_APP_API_KEY;
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
@@ -49,6 +50,8 @@ export default function LogIn(props) {
       data.localId,
       data.email
     );
+    console.log(budgCtx.budget);
+    //budgCtx.getBudget(data.localId);
 
     setLoading(false);
     navigate("/dashboard", { replace: true });

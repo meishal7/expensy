@@ -36,12 +36,13 @@ const Chart = ({ expenses }) => {
       if (!acc[key]) {
         acc[key] = 0;
       }
-      acc[key] = acc[key] + obj.cost;
+      acc[key] = +obj.cost + acc[key];
       return acc;
     }, {});
   }
 
   let groupedExpenses = groupBy(expenses, "month");
+  //console.log(groupedExpenses);
 
   return (
     <ChartStyle>
@@ -49,7 +50,7 @@ const Chart = ({ expenses }) => {
         <div className="candle" key={i}>
           <p>{month}</p>
           <ChartBar
-            amount={groupedExpenses[i + 1]}
+            amount={groupedExpenses[monthNames[i]]}
             maxBudget={budgCtx.budget}
           />
         </div>

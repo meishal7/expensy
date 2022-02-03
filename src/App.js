@@ -16,6 +16,7 @@ function App() {
   const authCtx = useContext(AuthContext);
   const expCtx = useContext(ExpensesContext);
   const budgCtx = useContext(BudgetContext);
+  const [category, setCategory] = useState("Choose Categoory");
 
   const [selectedYear, setYear] = useState(2022);
   const [isEditingForm, setIsEditing] = useState(false);
@@ -84,6 +85,7 @@ function App() {
                   <ExpenseForm
                     onSubmitNewExpense={submitExpenseHandler}
                     onCancel={stopIsEditingFormHandler}
+                    
                   />
                 )}
 

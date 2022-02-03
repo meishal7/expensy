@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
+import BudgetContext from "../context/BudgetContext";
 
 const EditModalStyle = styled.div`
   border: 1px solid black;
@@ -10,11 +11,12 @@ const EditModalStyle = styled.div`
 
 const BudgetEditModal = ({ budget: defbudget, onSave, onCancel }) => {
   const [budget, setBudget] = useState(defbudget);
+  const budgCtx = useContext(BudgetContext);
   const userId = localStorage.getItem("userId");
 
-  const budgetHandler = (event) => {
-    setBudget(event.target.value);
-  };
+  // const budgetHandler = (event) => {
+  //   setBudget(event.target.value);
+  // };
 
   return (
     <EditModalStyle>
@@ -23,7 +25,10 @@ const BudgetEditModal = ({ budget: defbudget, onSave, onCancel }) => {
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              onSave(userId, budget);
+              //onSave(userId, budget);
+
+              budgCtx.editBudget(userId, budget);
+
               onCancel(false);
             }}
           >
@@ -35,7 +40,7 @@ const BudgetEditModal = ({ budget: defbudget, onSave, onCancel }) => {
               placeholder="00.00"
               value={budget}
               step="1"
-              onChange={budgetHandler}
+              onChange={(event) => setBudget(event.target.value)}
             />
 
             <button type="submit">Save</button>

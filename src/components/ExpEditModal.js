@@ -20,6 +20,7 @@ const ExpEditModal = ({
   const [title, setTitle] = useState(ptitle);
   const [cost, setCost] = useState(pcost);
   const [date, setDate] = useState(" ");
+  const [category, setCategory] = useState("Choose Category");
 
   const expCtx = useContext(ExpensesContext);
 
@@ -33,6 +34,10 @@ const ExpEditModal = ({
 
   const dateHandler = (event) => {
     setDate(event.target.value);
+  };
+
+  const categoryHandler = (event) => {
+    setCategory(event.target.value);
   };
 
   return (
@@ -49,6 +54,7 @@ const ExpEditModal = ({
                 month: format(new Date(date), "MMM"),
                 day: format(new Date(date), "dd"),
                 cost: cost,
+                category: category,
                 id: id,
               };
 
@@ -87,6 +93,25 @@ const ExpEditModal = ({
               value={date}
               onChange={dateHandler}
             />
+            <label>Category</label>
+            <select onChange={categoryHandler}>
+              <option value="Choose ategory">Choose Category</option>
+              <option value="Choose ategory">Other</option>
+              <option value="Home insurance">Home Insurance</option>
+              <option value="Auto insurance">Auto Insurance</option>
+              <option value="Health insurance">Auto Insurance</option>
+              <option value="Water bill">Water Bill</option>
+              <option value="Garbage bill">Garbage Bill</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Car payment">Car Payment</option>
+              <option value="Internet">Internet</option>
+              <option value="Child care">Child Care</option>
+              <option value="Clothes">Clothes</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Home appliance">Home Appliance</option>
+              <option value="Rent">Reant/Morgage</option>
+              <option value="Gasoline">Gasoline</option>
+            </select>
             <button type="submit">Submit</button>
             <button type="button" onClick={() => cancelEditing(false)}>
               Cancel
