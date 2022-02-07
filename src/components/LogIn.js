@@ -3,6 +3,73 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import BudgetContext from "../context/BudgetContext";
 import authFetch from "../modules/authFetch";
+import { ReactComponent as Logo } from "../images/logo.svg";
+import styled from "styled-components";
+
+const LogInStyle = styled.div`
+  background: #3f3d40 0% 0% no-repeat padding-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .content {
+    margin: auto auto auto auto;
+    width: 70vw;
+  }
+  .form {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+    align-content: space-between;
+  }
+  label {
+    color: #fbf7ff;
+    opacity: 1;
+  }
+  input {
+    background: #fbf7ff;
+    width: 100%;
+    border-radius: 5px;
+    min-height: 30px;
+    border: 0.5px #fbf7ff solid;
+    /* -webkit-appearance: none;
+    -moz-appearance: none; */
+  }
+  input:focus {
+    outline: none;
+    border: 2px #918e8e solid;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1em;
+    min-height: 35px;
+    font-family: inherit;
+    /* -webkit-appearance: none;
+    -moz-appearance: none; */
+    border-radius: 5px;
+    border: 0.5px #fbf7ff solid;
+    background: #fbf7ff;
+    font-family: inherit;
+    color: #3f3d40;
+    font-weight: 500;
+    padding: 0 0;
+  }
+  .sign-in {
+    background: #a976f7;
+    color: aliceblue;
+  }
+  .sign-in:active {
+    background: #7b2cf4;
+  }
+  .create-acc-btn:active {
+    background: #8f8c91;
+  }
+  .field-set {
+    margin-top: 1em;
+  }
+`;
 
 export default function LogIn(props) {
   const authCtx = useContext(AuthContext);
@@ -58,27 +125,38 @@ export default function LogIn(props) {
   };
 
   return (
-    <Fragment>
-      <p>This is Sign in page</p>
-      <form onSubmit={logInHandler}>
+    <LogInStyle>
+      <div className="content">
         <div>
-          <label htmlFor="email">Your Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <Logo />
         </div>
-        <div>
-          <label htmlFor="password">Your Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            ref={passwordInputRef}
-          />
+        <div className="form">
+          <form onSubmit={logInHandler}>
+            <div className="field-set">
+              <label htmlFor="email">Email</label>
+              <input type="email" id="email" required ref={emailInputRef} />
+            </div>
+            <div className="field-set">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                required
+                ref={passwordInputRef}
+              />
+            </div>
+            <button className="sign-in" type="submit">
+              Sign In
+            </button>
+            <Link to="/sign-up">
+              {" "}
+              <button className="create-acc-btn" type="button">
+                Create account
+              </button>
+            </Link>
+          </form>
         </div>
-        <div>
-          <button type="submit">Sign In</button>
-        </div>
-      </form>
-      <Link to="/sign-up">Create account</Link>
-    </Fragment>
+      </div>
+    </LogInStyle>
   );
 }

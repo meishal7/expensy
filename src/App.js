@@ -11,6 +11,8 @@ import YearFilter from "./components/YearFilter";
 import Chart from "./components/Chart";
 import ExpensesContext from "./context/ExpensesContext";
 import BudgetContext from "./context/BudgetContext";
+import "./css/normalize.css";
+import { GlobalStyle } from "./css/globalStyles";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -58,6 +60,7 @@ function App() {
 
   return (
     <Fragment>
+      <GlobalStyle />
       <Routes>
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/log-in" element={<LogIn />} />
@@ -85,7 +88,6 @@ function App() {
                   <ExpenseForm
                     onSubmitNewExpense={submitExpenseHandler}
                     onCancel={stopIsEditingFormHandler}
-                    
                   />
                 )}
 

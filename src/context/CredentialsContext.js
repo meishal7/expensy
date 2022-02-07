@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const initialEmail = localStorage.getItem("email");
 
 const CredentialsContext = React.createContext({
-  email: "",
+  email: initialEmail,
   password: "********",
   changeCredential: (data, API_KEY) => {},
 });
@@ -101,25 +101,12 @@ export const CredentialsContextProvider = (props) => {
   const changeCredentialHandler = async (data, API_KEY) => {
     setLoading(true);
     const res = await changeCredential(data, API_KEY);
+    console.log(res);
     localStorage.setItem("email", res.email);
     const newEmail = res.email;
     setEmail(newEmail);
     setLoading(false);
   };
-
-  //   const getBudgetHandler = async (userId) => {
-  //     const budget = await getBudget(userId);
-  //     setBudget(budget);
-  //     console.log(budget);
-  //     //localStorage.setItem("budget", budget);
-  //   };
-
-  //   const editBudgetHandler = async (userId, budget) => {
-  //     await editBudget(userId, budget);
-  //     const newBudget = await getBudget(userId);
-  //     setBudget(newBudget);
-  //     //localStorage.setItem("budget", newBudget);
-  //   };
 
   const credentContextValue = {
     email: email,
