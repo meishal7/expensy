@@ -8,7 +8,10 @@ import { ReactComponent as CloseIcon } from "../images/close-icon.svg";
 
 const SideMenuStyle = styled.div`
   background: #3f3d40 0% 0% no-repeat padding-box;
-  width: 50vw;
+  width: 250px;
+  position: absolute;
+  left: ${({ showMenu }) => (showMenu ? "0px" : "-250px")};
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   height: 100vh;
   .content {
     padding-left: 1em;
@@ -32,10 +35,10 @@ const IconWrapper = styled.div`
   }
 `;
 
-export default function SideMenu({ onClose }) {
+export default function SideMenu({ onClose, showMenu }) {
   const authCtx = useContext(AuthContext);
   return (
-    <SideMenuStyle>
+    <SideMenuStyle showMenu={showMenu}>
       <div className="content">
         <div className="header">
           {/* <div className="logo"> */}

@@ -23,15 +23,17 @@ const LayoutStyle = styled.div`
 export default function Layout() {
   const [menuCollapse, setMenuCollapse] = useState(false);
 
-  const menuIconClick = () => {
-    menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
-  };
-
   return (
     <LayoutStyle>
-      
-      {!menuCollapse && <SideMenu onClose={menuIconClick} />}
-
+      <div class="nav-icon4">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <SideMenu
+        showMenu={menuCollapse}
+        onClose={() => setMenuCollapse(!menuCollapse)}
+      />
       {/* <button type="button" onClick={() => console.log("aaa")}>
         Menu */}
       {
@@ -39,7 +41,7 @@ export default function Layout() {
           className="menu-hamburger-img"
           src={menu}
           alt="Menu button"
-          onClick={menuIconClick}
+          onClick={() => setMenuCollapse(!menuCollapse)}
         ></img>
       }
       {/* </button> */}

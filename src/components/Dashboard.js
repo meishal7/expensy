@@ -4,11 +4,11 @@ import React from "react";
 
 export default function Dashboard({ children }) {
   return (
-    <Fragment>
+    <div>
       <div>This is dashboard.</div>
 
       {}
       <Outlet />
-    </Fragment>
+    </div>
   );
 }
