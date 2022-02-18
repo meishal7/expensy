@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import ExpensesContext from "../context/ExpensesContext";
 import Expense from "./Expense";
+import AuthContext from "../context/AuthContext";
 
 const Expenses = (props) => {
   const expCtx = useContext(ExpensesContext);
-
-  const deleteHandler = (id) => {
-    expCtx.delete(id);
-  };
+  const authCtx = useContext(AuthContext);
 
   return (
     <React.Fragment>
@@ -16,7 +14,7 @@ const Expenses = (props) => {
       ) : (
         props.expenses.map((expense) => (
           <Expense
-            onDelete={deleteHandler}
+            onDelete={expCtx.delete}
             key={expense.id}
             title={expense.title}
             cost={expense.cost}

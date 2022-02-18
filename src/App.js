@@ -13,6 +13,23 @@ import ExpensesContext from "./context/ExpensesContext";
 import BudgetContext from "./context/BudgetContext";
 import "./css/normalize.css";
 import { GlobalStyle } from "./css/globalStyles";
+import styled from "styled-components";
+
+const AddExpDiv = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 70vw;
+  button {
+    width: 70vw;
+    margin: auto auto;
+    border-radius: 15px;
+    background-color: #b58ef2;
+    border: 2px solid #eceaea;
+    color: black;
+    min-height: 46px;
+    box-shadow: 2px 2px 5px #bdb7b7;
+  }
+`;
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -32,8 +49,8 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      expCtx.getExp(userId);
-      budgCtx.getBudget(userId);
+      expCtx.getExp(userId, token);
+      budgCtx.getBudget(userId, token);
     }
   }, [token]);
 
@@ -45,9 +62,9 @@ function App() {
     setIsEditing(false);
   };
 
-  const submitExpenseHandler = async (data) => {
+  const submitExpenseHandler = async (data, token) => {
     setLoading(true);
-    expCtx.storeNewExp(userId, data);
+    expCtx.storeNewExp(authCtx.userId, data, authCtx.token);
     //budgCtx.storeBudget(userId, budgCtx.budget);
 
     setLoading(false);
@@ -81,9 +98,11 @@ function App() {
             element={
               <Fragment>
                 {!isEditingForm ? (
-                  <button onClick={isEditingFormHandler}>
-                    Add New Expense
-                  </button>
+                  <AddExpDiv>
+                    <button onClick={isEditingFormHandler}>
+                      Add New Expense
+                    </button>
+                  </AddExpDiv>
                 ) : (
                   <ExpenseForm
                     onSubmitNewExpense={submitExpenseHandler}
@@ -105,11 +124,3 @@ function App() {
 }
 
 export default App;
-
-/**
- * when sign up => store default budget 5000 in local stor budgCtx.storeDefaultBudget(userId, defBudget)
- * when submit new exp => store budget from local store to user data budget.
- * when log in => get budget from db and store it in local stor
- * when change budget => show edit modal, budget can not be 0 for correct diagram
- * every time app is reloaded => get budget from db, store it in local stor and put it in budget page
- */

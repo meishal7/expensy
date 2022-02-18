@@ -13,9 +13,10 @@ const ChartBar = ({ amount = 0, maxBudget }) => {
           flexDirection: "column",
           justifyContent: "flex-end",
           flex: "1",
+          borderRadius: "5px",
         }}
       >
-        <div style={{ background: "red", flex: `0 1 ${percent}%` }}></div>
+        <div style={{ background: "#8840F5", flex: `0 1 ${percent}%` }}></div>
       </div>
     </React.Fragment>
   );

@@ -2,6 +2,7 @@ import { getActiveElement } from "@testing-library/user-event/dist/utils";
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 let logoutTimer;
 
 const AuthContext = React.createContext({
@@ -9,7 +10,7 @@ const AuthContext = React.createContext({
   isAuthenticated: false,
   login: (token) => {},
   logout: () => {},
-  id: "",
+  userId: "",
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -23,7 +24,7 @@ const calculateRemainingTime = (expirationTime) => {
 const retrieveStoredToken = (props) => {
   const storedToken = localStorage.getItem("token");
   const ctoredExpirationDate = localStorage.getItem("expirationTime");
-  const storedId = localStorage.getItem("userId");
+  const storedUserId = localStorage.getItem("userId");
   const remainingTime = calculateRemainingTime(ctoredExpirationDate);
 
   if (remainingTime <= 3600) {
@@ -33,22 +34,22 @@ const retrieveStoredToken = (props) => {
   return {
     token: storedToken,
     remainingTime: remainingTime,
-    id: storedId,
+    userId: storedUserId,
   };
 };
 
 export const AuthContextProvider = (props) => {
   const tokenData = retrieveStoredToken();
-  let idData;
+  let userIdData;
   let initialToken;
 
   if (tokenData) {
     initialToken = tokenData.token;
-    idData = tokenData.id;
+    userIdData = tokenData.userId;
   }
 
   const [token, setToken] = useState(initialToken);
-  const [id, setId] = useState(idData);
+  const [userId, setId] = useState(userIdData);
   const navigate = useNavigate();
 
   const logoutHandler = useCallback(() => {
@@ -67,6 +68,8 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("email", email);
     const remainingTime = calculateRemainingTime(expirationTime);
 
+
+
     logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
 
@@ -80,7 +83,7 @@ export const AuthContextProvider = (props) => {
     token: token,
     login: loginHandler,
     logout: logoutHandler,
-    id: id,
+    userId: userId,
   };
 
   return (

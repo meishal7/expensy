@@ -115,8 +115,9 @@ export default function SignUp() {
       data.email
     );
 
-    budgCtx.storeBudget(data.localId, 5000);
-    console.log(budgCtx.budget);
+    const token = localStorage.getItem("token");
+
+    budgCtx.storeBudget(data.localId, 5000, token);
 
     setLoading(false);
     navigate("/dashboard", { replace: true });

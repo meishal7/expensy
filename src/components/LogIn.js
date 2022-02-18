@@ -117,8 +117,10 @@ export default function LogIn(props) {
       data.localId,
       data.email
     );
-    console.log(budgCtx.budget);
-    //budgCtx.getBudget(data.localId);
+
+    const token = localStorage.getItem("token");
+
+    budgCtx.getBudget(data.localId, token);
 
     setLoading(false);
     navigate("/dashboard", { replace: true });

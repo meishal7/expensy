@@ -12,14 +12,13 @@ const ExpensesContext = React.createContext({
   // setEditing: (editingExp) => {},
 });
 
-const userId = localStorage.getItem("userId");
+//const userId = localStorage.getItem("userId");
 
-const editExp = async (expData) => {
-  console.log("exp data from exp is");
-
+const editExp = async (userId, expData, token) => {
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expData.id}.json`,
+      // `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expData.id}.json`,
+      `https://expancy-f5b7d-default-rtdb.firebaseio.com/users/${userId}/expenses/${expData.id}.json?auth=${token}`,
       {
         method: "PATCH",
         body: JSON.stringify(expData),
@@ -34,7 +33,6 @@ const editExp = async (expData) => {
     // }
     if (!response.ok) console.log(response.status);
 
-    console.log("res from editing", response);
     return response;
   } catch (error) {
     console.log("Fetch error: ", error);
@@ -42,10 +40,11 @@ const editExp = async (expData) => {
   }
 };
 
-const deleteExp = async (expId) => {
+const deleteExp = async (userId, expId, token) => {
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}.json`,
+      // `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}.json`,
+      `https://expancy-f5b7d-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}.json?auth=${token}`,
       {
         method: "DELETE",
       }
@@ -63,10 +62,11 @@ const deleteExp = async (expId) => {
   }
 };
 
-const getExp = async (userId) => {
+const getExp = async (userId, token) => {
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
+      //`https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
+      `https://expancy-f5b7d-default-rtdb.firebaseio.com/users/${userId}/expenses.json?auth=${token}`,
       {
         method: "GET",
       }
@@ -87,10 +87,11 @@ const getExp = async (userId) => {
   }
 };
 
-const storeNewExp = async (userId, expenseData) => {
+const storeNewExp = async (userId, expenseData, token) => {
   try {
     const response = await fetch(
-      `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
+      // `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
+      `https://expancy-f5b7d-default-rtdb.firebaseio.com/users/${userId}/expenses.json?auth=${token}`,
 
       {
         method: "POST",
@@ -119,36 +120,36 @@ export const ExpensesContextProvider = (props) => {
   //const [editingExp, setEditing] = useState(false);
   const budgCtx = useState(BudgetContext);
 
-  const deleteExpHandler = async (expId) => {
+  const deleteExpHandler = async (userId, expId, token) => {
     setLoading(true);
-    const res = await deleteExp(expId);
-    const expenses = await getExp(userId);
+    const res = await deleteExp(userId, expId, token);
+    const expenses = await getExp(userId, token);
     setExpenses((prevExpenses) => expenses);
     setLoading(false);
   };
 
-  const getExpHandler = async (userId) => {
+  const getExpHandler = async (userId, token) => {
     setLoading(true);
-    const expenses = await getExp(userId);
+    const expenses = await getExp(userId, token);
     setExpenses((prevExpenses) => expenses);
     setLoading(false);
   };
 
-  const storeNewExpHandler = async (userId, expData) => {
+  const storeNewExpHandler = async (userId, expData, token) => {
     setLoading(true);
 
-    const res = await storeNewExp(userId, expData);
-    const expenses = await getExp(userId);
+    const res = await storeNewExp(userId, expData, token);
+    const expenses = await getExp(userId, token);
     setExpenses((prevExpenses) => expenses);
     setLoading(false);
     console.log("res from store new exp", res);
   };
 
-  const editExpHandler = async (expdata) => {
+  const editExpHandler = async (userId, expdata, token) => {
     setLoading(true);
 
-    const res = await editExp(expdata);
-    const expenses = await getExp(userId);
+    const res = await editExp(userId, expdata, token);
+    const expenses = await getExp(userId, token);
     setExpenses((prevExpenses) => expenses);
     setLoading(false);
   };

@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import { format } from "date-fns";
 import ExpensesContext from "../context/ExpensesContext";
+import AuthContext from "../context/AuthContext";
 
 const EditModalStyle = styled.div`
   border: 1px solid black;
@@ -23,6 +24,9 @@ const ExpEditModal = ({
   const [category, setCategory] = useState("Choose Category");
 
   const expCtx = useContext(ExpensesContext);
+  const authCtx = useContext(AuthContext);
+
+  //const token = localStorage.getItem("token");
 
   const titleHandler = (event) => {
     setTitle(event.target.value);
@@ -47,6 +51,7 @@ const ExpEditModal = ({
           <form
             onSubmit={(event) => {
               event.preventDefault();
+              console.log(authCtx.token);
 
               const changedData = {
                 title: title,
@@ -58,7 +63,7 @@ const ExpEditModal = ({
                 id: id,
               };
 
-              expCtx.editExp(changedData);
+              expCtx.editExp(authCtx.userId, changedData, authCtx.token);
 
               cancelEditing(false);
             }}

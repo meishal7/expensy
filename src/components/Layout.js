@@ -8,6 +8,7 @@ import { useState } from "react";
 import { VscAccount } from "react-icons/vsc";
 
 const LayoutStyle = styled.div`
+  background: #fbf7ff 0% 0% no-repeat padding-box;
   padding-top: 60px;
   .bar {
     height: 2px;
@@ -18,6 +19,8 @@ const LayoutStyle = styled.div`
   }
 
   .open {
+    margin-left: 1em;
+    margin-top: 1em;
     .bar {
       background-color: white;
     }
@@ -43,18 +46,9 @@ const LayoutStyle = styled.div`
     width: 45px;
     cursor: pointer;
     z-index: 30;
+    margin-top: 1em;
+    margin-left: 1em;
   }
-
-  /* .menu-hamburger-img {
-    width: 50px;
-    height: 50px;
-  }
-  .menu-img:active {
-    background-color: pink;
-  }
-  .menu-img:hover {
-    background-color: pink;
-  } */
 `;
 
 export default function Layout() {
@@ -64,7 +58,6 @@ export default function Layout() {
     <LayoutStyle>
       <div
         className={`${menuCollapse ? "open" : " "}  menu-btn`}
-        //className="menu-btn"
         onClick={() => {
           setMenuCollapse(!menuCollapse);
         }}
@@ -77,17 +70,7 @@ export default function Layout() {
         showMenu={menuCollapse}
         onClose={() => setMenuCollapse(!menuCollapse)}
       />
-      {/* <button type="button" onClick={() => console.log("aaa")}>
-        Menu */}
-      {
-        // <img
-        //   className="menu-hamburger-img"
-        //   src={menu}
-        //   alt="Menu button"
-        //   onClick={() => setMenuCollapse(!menuCollapse)}
-        // ></img>
-      }
-      {/* </button> */}
+
       <Dashboard></Dashboard>
     </LayoutStyle>
   );

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import BudgetContext from "../context/BudgetContext";
+import AuthContext from "../context/AuthContext";
 
 const EditModalStyle = styled.div`
   border: 1px solid black;
@@ -12,7 +13,8 @@ const EditModalStyle = styled.div`
 const BudgetEditModal = ({ budget: defbudget, onSave, onCancel }) => {
   const [budget, setBudget] = useState(defbudget);
   const budgCtx = useContext(BudgetContext);
-  const userId = localStorage.getItem("userId");
+  const authCtx = useContext(AuthContext);
+  //const userId = localStorage.getItem("userId");
 
   // const budgetHandler = (event) => {
   //   setBudget(event.target.value);
@@ -27,7 +29,7 @@ const BudgetEditModal = ({ budget: defbudget, onSave, onCancel }) => {
               event.preventDefault();
               //onSave(userId, budget);
 
-              budgCtx.editBudget(userId, budget);
+              budgCtx.editBudget(authCtx.userId, budget, authCtx.token);
 
               onCancel(false);
             }}
