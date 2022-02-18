@@ -9,6 +9,7 @@ import Expenses from "./components/Expenses";
 import ExpenseForm from "./components/ExpenseForm";
 import YearFilter from "./components/YearFilter";
 import Chart from "./components/Chart";
+import Header from "./components/Header";
 import ExpensesContext from "./context/ExpensesContext";
 import BudgetContext from "./context/BudgetContext";
 import "./css/normalize.css";
@@ -63,6 +64,7 @@ function App() {
   };
 
   const submitExpenseHandler = async (data, token) => {
+    console.log(data.date);
     setLoading(true);
     expCtx.storeNewExp(authCtx.userId, data, authCtx.token);
     //budgCtx.storeBudget(userId, budgCtx.budget);
@@ -97,6 +99,7 @@ function App() {
             path=""
             element={
               <Fragment>
+                <Header />
                 {!isEditingForm ? (
                   <AddExpDiv>
                     <button onClick={isEditingFormHandler}>

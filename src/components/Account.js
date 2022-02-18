@@ -4,6 +4,32 @@ import BudgetContext from "../context/BudgetContext";
 import CredentialsContext from "../context/CredentialsContext";
 import EmailEditModal from "./EmailEditModal";
 import PasswEditModal from "./PasswEditModal";
+import styled from "styled-components";
+
+const AccountStyle = styled.div`
+  width: 100vw;
+  margin-left: 3em;
+  margin-top: 2em;
+  span {
+    font-weight: bold;
+  }
+  button {
+    border: 0.5px solid black;
+    width: 170px;
+    height: 30px;
+    color: #e34bb9;
+
+    border-radius: 2px;
+    background-color: none;
+    border: 2px solid #eceaea;
+    color: black;
+
+    box-shadow: 2px 2px 5px #bdb7b7;
+  }
+  .set {
+    display: flex;
+  }
+`;
 
 export default function Account() {
   const email = localStorage.getItem("email");
@@ -16,21 +42,30 @@ export default function Account() {
   const [editingPassw, setEditingPassw] = useState(false);
 
   return (
-    <Fragment>
+    <AccountStyle>
+      <span>ACCOUNT</span>
+      {/* <div className="set"> */}
       <p>Email: {credCtx.email} </p>
-      <button type="button" onClick={() => setEditingEmail(true)}>
+      <button
+        className="change-btn"
+        type="button"
+        onClick={() => setEditingEmail(true)}
+      >
         Change Email
       </button>
-
+      {/* </div> */}
+      {/* <div className="set"> */}
       <p>Password: {credCtx.password} </p>
       <button type="button" onClick={() => setEditingPassw(true)}>
         Change Password
       </button>
-
+      {/* </div> */}
+      {/* <div className="set"> */}
       <p>Monthly Budget: ${budgCtx.budget} </p>
       <button type="button" onClick={() => setEditingBudget(true)}>
         Change Budget
       </button>
+      {/* </div> */}
 
       {editingBudget && (
         <BudgetEditModal
@@ -54,6 +89,6 @@ export default function Account() {
           email={email}
         />
       )}
-    </Fragment>
+    </AccountStyle>
   );
 }

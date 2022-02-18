@@ -11,9 +11,10 @@ const ExpenseStyle = styled.div`
   grid-template-rows: auto;
   grid-template-areas:
     "name cost edit-btn"
-    "category date delete-btn";
-  padding-left: 0.5em;
-  padding-right: 0.5em;
+    "date cost delete-btn";
+
+  padding: 0.5em 0.5em 0.5em 1.5em;
+
   background: #efebf2 0% 0% no-repeat padding-box;
   margin-top: 1em;
   margin-bottom: 1em;
@@ -31,19 +32,48 @@ const ExpenseStyle = styled.div`
   }
   .edit-btn {
     grid-area: edit-btn;
+    padding: 0 0;
+    color: #342680;
   }
   .delete-btn {
     grid-area: delete-btn;
+    padding: 0 0;
+    color: #e34bb9;
   }
   .exp-item-name {
     display: none;
   }
   .title {
     font-size: 25px;
+    margin: 0 0 0 0;
+    color: #3f3d40;
+  }
+  .date {
+    margin: 0 0 0 0;
+    color: #3f3d40;
+  }
+  .cost {
+    font-size: 20px;
+    color: #3f3d40;
+  }
+`;
+const IconWrapper = styled.div`
+  svg {
+    width: 25px;
+    height: 25px;
   }
 `;
 
-const Expense = ({ title, cost, category, month, day, year, id, onDelete }) => {
+const Expense = ({
+  title,
+  cost,
+  category,
+  date,
+  month,
+  year,
+  id,
+  onDelete,
+}) => {
   const [editingExp, setEditing] = useState(false);
 
   // const token = localStorage.getItem("token");
@@ -57,19 +87,20 @@ const Expense = ({ title, cost, category, month, day, year, id, onDelete }) => {
         <p className="exp-item-name">Expense name</p>
         <p className="title">{title}</p>
       </div>
-      <div className="exp-category-div">
+      <div className="exp-category-div exp-item-name">
         <p>Category</p>
         <p>{category}</p>
       </div>
       <div className="date-div">
         <p className="exp-item-name">Date</p>
-        <p>{month}</p>
+        <p className="date">{date}</p>
+        {/* <p>{month}</p>
         <p>{day}</p>
-        <p>{year}</p>
+        <p>{year}</p> */}
       </div>
       <div className="amount-div">
         <p className="exp-item-name">Amount</p>
-        <p>${cost}</p>
+        <p className="cost">${cost}</p>
       </div>
 
       <button
@@ -78,13 +109,18 @@ const Expense = ({ title, cost, category, month, day, year, id, onDelete }) => {
           setEditing(true);
         }}
       >
-        <BsPencilSquare />
+        {" "}
+        <IconWrapper>
+          <BsPencilSquare />
+        </IconWrapper>
       </button>
       <button
         className="delete-btn"
         onClick={() => onDelete(authCtx.userId, id, authCtx.token)}
       >
-        <BiTrashAlt />
+        <IconWrapper>
+          <BiTrashAlt />
+        </IconWrapper>
       </button>
 
       {editingExp && (

@@ -69,6 +69,7 @@ export default function Layout() {
       <SideMenu
         showMenu={menuCollapse}
         onClose={() => setMenuCollapse(!menuCollapse)}
+        onClick={() => setMenuCollapse(!menuCollapse)}
       />
 
       <Dashboard></Dashboard>

@@ -10,17 +10,18 @@ const Expenses = (props) => {
   return (
     <React.Fragment>
       {props.expenses.length === 0 ? (
-        <p>No expenses found.</p>
+        <p style={{ paddingLeft: "1em" }}>No expenses found.</p>
       ) : (
         props.expenses.map((expense) => (
           <Expense
             onDelete={expCtx.delete}
             key={expense.id}
             title={expense.title}
+            date={expense.date}
             cost={expense.cost}
             category={expense.category}
             month={expense.month}
-            day={expense.day}
+            // day={expense.day}
             year={expense.year}
             id={expense.id}
           />

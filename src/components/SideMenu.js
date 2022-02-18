@@ -58,7 +58,13 @@ const IconWrapper = styled.div`
   }
 `;
 
-export default function SideMenu({ onClose, showMenu }) {
+export default function SideMenu({
+  onClose,
+  showMenu,
+  onClick,
+  setMenuCollapse,
+  menuCollapse,
+}) {
   const authCtx = useContext(AuthContext);
   return (
     <SideMenuStyle showMenu={showMenu}>
@@ -73,11 +79,15 @@ export default function SideMenu({ onClose, showMenu }) {
         <div className="menu-items">
           <div className="links">
             <VscAccount color="#fbf7ff" fontSize="20px" />
-            <Link to="/dashboard/account">Account</Link>
+            <Link to="/dashboard/account" onClick={onClick}>
+              Account
+            </Link>
           </div>
           <div className="links">
             <BsCart color="#fbf7ff" fontSize="20px" />
-            <Link to="/dashboard">Expenses</Link>
+            <Link to="/dashboard" onClick={onClick}>
+              Expenses
+            </Link>
           </div>
 
           <button className="logout-btn" onClick={authCtx.logout}>

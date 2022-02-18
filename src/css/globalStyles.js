@@ -11,6 +11,7 @@ box-sizing: inherit;
 body {
   
   font-family: 'Open Sans', sans-serif;
+  background-color: #FBF7FF;
 }
 
 `;

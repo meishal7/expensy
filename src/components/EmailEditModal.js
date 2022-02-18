@@ -5,9 +5,62 @@ import AuthContext from "../context/AuthContext";
 import CredentialsContext from "../context/CredentialsContext";
 
 const EditModalStyle = styled.div`
-  border: 1px solid black;
-  position: absolute;
-  background: pink;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid transparent;
+  align-items: center;
+  margin: 2em auto auto auto;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  width: 90vw;
+  border-radius: 5px;
+  background-color: #fbf7ff;
+  label {
+    display: block;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+  }
+  input {
+    background: #fbf7ff;
+    min-width: 300px;
+    /* width: 100%; */
+    border-radius: 5px;
+    min-height: 40px;
+    border: 2px solid #eceaea;
+    background-color: #e6e3e8;
+  }
+  input:focus {
+    border: 2px solid #b5afaf;
+  }
+
+  .form-buttons {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .form-buttons button {
+    min-width: 100px;
+    border-radius: 2px;
+    background-color: none;
+    border: 2px solid #eceaea;
+    color: black;
+    min-height: 30px;
+    box-shadow: 2px 2px 5px #bdb7b7;
+  }
+  .form-buttons button:hover {
+    background-color: #a976f7;
+  }
+  .form-buttons button:active {
+    background-color: #a976f7;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+  .submit-btn {
+    margin-left: 1em;
+    background-color: none;
+  }
 `;
 
 const EmailEditModal = ({ email: defemail, onCancel }) => {
@@ -22,9 +75,9 @@ const EmailEditModal = ({ email: defemail, onCancel }) => {
   };
 
   return (
-    <EditModalStyle>
+    <React.Fragment>
       {ReactDOM.createPortal(
-        <div>
+        <EditModalStyle>
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -47,16 +100,19 @@ const EmailEditModal = ({ email: defemail, onCancel }) => {
               value={email}
               onChange={emailHandler}
             />
-
-            <button type="submit">Submit</button>
-            <button type="button" onClick={() => onCancel(false)}>
-              Cancel
-            </button>
+            <div className="form-buttons">
+              <button type="button" onClick={() => onCancel(false)}>
+                Cancel
+              </button>
+              <button type="submit" className="submit-btn">
+                Save
+              </button>
+            </div>
           </form>
-        </div>,
+        </EditModalStyle>,
         document.getElementById("edit-email-modal-root")
       )}
-    </EditModalStyle>
+    </React.Fragment>
   );
 };
 

@@ -4,7 +4,10 @@ import BudgetContext from "../context/BudgetContext";
 import { useContext } from "react";
 
 const ChartStyle = styled.div`
+  margin-left: 1em;
+  margin-right: 1em;
   display: flex;
+  overflow: scroll;
   min-height: 300px;
   gap: 0 10px;
   .candle {

@@ -126,9 +126,11 @@ const ExpenseForm = (props) => {
 
     const expenseData = {
       title: title,
+      date: date,
+
       year: +format(new Date(date), "yyyy"),
       month: format(new Date(date), "MMM"),
-      day: format(new Date(date), "dd"),
+      // day: format(new Date(date), "dd"),
       cost: cost,
       category: category,
     };
