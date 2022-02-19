@@ -49,6 +49,15 @@ const LayoutStyle = styled.div`
     margin-top: 1em;
     margin-left: 1em;
   }
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    padding: 0 0 0 0;
+
+    .bar {
+      display: none;
+    }
+  }
 `;
 
 export default function Layout() {
@@ -56,6 +65,7 @@ export default function Layout() {
 
   return (
     <LayoutStyle>
+      {/* {width >= 768 && <SideMenu />} */}
       <div
         className={`${menuCollapse ? "open" : " "}  menu-btn`}
         onClick={() => {

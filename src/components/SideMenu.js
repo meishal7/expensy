@@ -19,8 +19,7 @@ const SideMenuStyle = styled.div`
     margin-left: 1em;
     margin-top: 4em;
   }
-  .header {
-  }
+
   .menu-items {
     display: flex;
     flex-direction: column;
@@ -49,6 +48,12 @@ const SideMenuStyle = styled.div`
     color: #fbf7ff;
     padding: 5px 5px;
     font: normal normal 600 20px/31px "Open Sans";
+  }
+  @media (min-width: 768px) {
+    position: fixed;
+    left: 0;
+    min-width: 250px;
+    height: 100%;
   }
 `;
 const IconWrapper = styled.div`

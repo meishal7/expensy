@@ -69,6 +69,12 @@ const SignUpStyle = styled.div`
   .field-set {
     margin-top: 1em;
   }
+  @media (min-width: 768px) {
+    .content {
+      margin: auto auto auto auto;
+      width: 50vw;
+    }
+  }
 `;
 
 export default function SignUp() {
