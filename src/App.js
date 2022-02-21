@@ -20,7 +20,7 @@ const AddExpDiv = styled.div`
   display: flex;
   align-items: center;
   min-width: 70vw;
-  button {
+  .add-exp-btn {
     width: 70vw;
     margin: auto auto;
     border-radius: 15px;
@@ -29,6 +29,11 @@ const AddExpDiv = styled.div`
     color: black;
     min-height: 46px;
     box-shadow: 2px 2px 5px #bdb7b7;
+  }
+  @media (min-width: 768px) {
+    .add-exp-btn {
+      width: 30%;
+    }
   }
 `;
 
@@ -100,9 +105,13 @@ function App() {
             element={
               <Fragment>
                 <Header />
+
                 {!isEditingForm ? (
                   <AddExpDiv>
-                    <button onClick={isEditingFormHandler}>
+                    <button
+                      className="add-exp-btn"
+                      onClick={isEditingFormHandler}
+                    >
                       Add New Expense
                     </button>
                   </AddExpDiv>
@@ -112,7 +121,6 @@ function App() {
                     onCancel={stopIsEditingFormHandler}
                   />
                 )}
-
                 <YearFilter onChangeYear={setYear} />
                 <Chart expenses={filteredExpenses} />
                 <Expenses expenses={filteredExpenses} />

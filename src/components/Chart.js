@@ -15,6 +15,9 @@ const ChartStyle = styled.div`
     flex-direction: column;
     flex: 1;
   }
+  .month-name {
+    text-align: center;
+  }
 `;
 const monthNames = [
   "Jan",
@@ -51,7 +54,7 @@ const Chart = ({ expenses }) => {
     <ChartStyle>
       {monthNames.map((month, i) => (
         <div className="candle" key={i}>
-          <p>{month}</p>
+          <p className="month-name">{month}</p>
           <ChartBar
             amount={groupedExpenses[monthNames[i]]}
             maxBudget={budgCtx.budget}

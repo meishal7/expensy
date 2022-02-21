@@ -40,21 +40,56 @@ const ExpenseStyle = styled.div`
     padding: 0 0;
     color: #e34bb9;
   }
-  .exp-item-name {
+  .exp-item-name,
+  .exp-item-name-div {
     display: none;
   }
-  .title {
+  .title,
+  .date,
+  .cost {
     font-size: 25px;
     margin: 0 0 0 0;
     color: #3f3d40;
   }
-  .date {
-    margin: 0 0 0 0;
-    color: #3f3d40;
-  }
-  .cost {
-    font-size: 20px;
-    color: #3f3d40;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 25% 23% 21% 21% 5% 5%;
+    grid-template-rows: auto;
+    grid-template-areas: "name category date cost edit-btn delete-btn";
+    .exp-item-name,
+    .exp-item-name-div {
+      display: inline-block;
+      margin: 0 0 0 0;
+      padding: 0 0 0 0;
+      color: #342680;
+    }
+    .title,
+    .date,
+    .cost,
+    .category {
+      font-size: 20px;
+      margin: 0 0 0 0;
+      color: #3f3d40;
+    }
+    .edit-btn {
+      grid-area: edit-btn;
+    }
+    .delete-btn {
+      grid-area: delete-btn;
+    }
+    .exp-title-div {
+      grid-area: name;
+    }
+    .exp-category-div {
+      grid-area: category;
+    }
+    .date-div {
+      grid-area: date;
+    }
+    .amount-div {
+      grid-area: cost;
+    }
   }
 `;
 const IconWrapper = styled.div`
@@ -87,9 +122,9 @@ const Expense = ({
         <p className="exp-item-name">Expense name</p>
         <p className="title">{title}</p>
       </div>
-      <div className="exp-category-div exp-item-name">
-        <p>Category</p>
-        <p>{category}</p>
+      <div className="exp-category-div exp-item-name-div">
+        <p className="exp-item-name">Category</p>
+        <p className="category">{category}</p>
       </div>
       <div className="date-div">
         <p className="exp-item-name">Date</p>

@@ -51,7 +51,7 @@ const EditModalStyle = styled.div`
     box-shadow: 2px 2px 5px #bdb7b7;
   }
   .form-buttons button:hover {
-    background-color: pink;
+    background-color: #b58ef2;
   }
   .form-buttons button:active {
     background-color: #a976f7;
@@ -64,7 +64,8 @@ const EditModalStyle = styled.div`
     background-color: none;
   }
   .submit-btn:hover {
-    color: pink;
+    color: black;
+    background-color: #b58ef2;
   }
   select {
     background: #fbf7ff;

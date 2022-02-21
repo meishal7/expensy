@@ -13,7 +13,7 @@ const NewExpenseFormStyle = styled.div`
   margin: auto auto auto auto;
   padding-top: 1em;
   padding-bottom: 1em;
-  width: 90vw;
+  width: 90%;
   border-radius: 5px;
   background-color: #fbf7ff;
 
@@ -24,10 +24,10 @@ const NewExpenseFormStyle = styled.div`
   }
   input {
     background: #fbf7ff;
-    min-width: 300px;
+    width: 300px;
     /* width: 100%; */
     border-radius: 5px;
-    min-height: 40px;
+    height: 40px;
     border: 2px solid #eceaea;
     background-color: #e6e3e8;
   }
@@ -51,7 +51,7 @@ const NewExpenseFormStyle = styled.div`
     box-shadow: 2px 2px 5px #bdb7b7;
   }
   .form-buttons button:hover {
-    background-color: pink;
+    background-color: #b58ef2;
   }
   .form-buttons button:active {
     background-color: #a976f7;
@@ -63,9 +63,9 @@ const NewExpenseFormStyle = styled.div`
     margin-left: 1em;
     background-color: none;
   }
-  .submit-btn:hover {
+  /* .submit-btn:hover {
     color: pink;
-  }
+  } */
   select {
     background: #fbf7ff;
     width: 100%;
@@ -73,6 +73,12 @@ const NewExpenseFormStyle = styled.div`
     line-height: 50;
     border: 2px solid #eceaea;
     background-color: #e6e3e8;
+  }
+  @media (min-width: 768px) {
+    input {
+      width: 500px;
+    }
+    /* width: 100%; */
   }
 `;
 

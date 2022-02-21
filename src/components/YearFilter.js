@@ -15,7 +15,20 @@ const YearFilterDiv = styled.div`
     border: 2px solid #eceaea;
     background-color: #e6e3e8;
   }
+  @media (min-width: 768px) {
+    position: absolute;
+    left: 1200px;
+    top: -15px;
+  }
 `;
+
+/** 
+ * position: absolute;
+width: 100%;
+height: 100%;
+background-color: #0000007d;
+z-index: 99;x 
+ */
 
 const YearFilter = ({ onChangeYear }) => {
   // const yearHandler = (event) => {
