@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 const ExpenseStyle = styled.div`
   display: grid;
-  grid-template-columns: 60% 20% 20%;
+  grid-template-columns: 50% 30% 20%;
   grid-template-rows: auto;
   grid-template-areas:
     "name cost edit-btn"
@@ -48,6 +48,9 @@ const ExpenseStyle = styled.div`
     font-size: 25px;
     margin: 0 0 0 0;
     color: #3f3d40;
+  }
+  .cost {
+    padding-right: 10px;
   }
   .date {
     padding: 0 0 0 0;

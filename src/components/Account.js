@@ -14,21 +14,26 @@ const AccountStyle = styled.div`
   span {
     font-weight: bold;
   }
-  button {
-    border: 0.5px solid black;
-    width: 170px;
+  .change-btn {
     height: 30px;
-    color: #e34bb9;
-
-    border-radius: 2px;
-    background-color: none;
-    border: 2px solid #eceaea;
-    color: black;
-
-    box-shadow: 2px 2px 5px #bdb7b7;
+    border: 1px solid black;
+    display: block;
   }
-  .set {
-    display: flex;
+  input {
+    border: none;
+    background: #fbf7ff 0% 0% no-repeat padding-box;
+  }
+  input:hover {
+    cursor: pointer;
+    border: 1px solid black;
+  }
+  input:focus {
+    border: 1px solid black;
+  }
+  fieldset {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border: none;
   }
 `;
 
@@ -39,60 +44,114 @@ export default function Account({ onCancel }) {
   const credCtx = useContext(CredentialsContext);
   const authCtx = useContext(AuthContext);
 
+  const [pemail, setEmail] = useState(email);
+  const [password, setPassword] = useState("******");
+  const [budget, setBudget] = useState(budgCtx.budget);
+
   const [editingBudget, setEditingBudget] = useState(false);
   const [editingEmail, setEditingEmail] = useState(false);
   const [editingPassw, setEditingPassw] = useState(false);
 
   const API_KEY = process.env.REACT_APP_API_KEY;
 
+  const emailHandler = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const passwHandler = (event) => {
+    setPassword(event.target.value);
+  };
+
   return (
     <AccountStyle>
       <span>ACCOUNT</span>
-      {/* <div className="set"> */}
-      <fieldset>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" />
-        <input
-          className="change-btn"
-          type="submit"
-          value="Submit"
-          onSubmit={(event) => {
-            event.preventDefault();
 
-            const newData = {
-              idToken: authCtx.token,
-              email: email,
-              returnSecureToken: true,
-            };
-            credCtx.changeCredential(newData, API_KEY);
-            onCancel(false);
-          }}
-        />
-        <button type="button" onClick={() => onCancel(false)}>
-          Cancel
-        </button>
-      </fieldset>
-      {/* <p>Email: {credCtx.email} </p>
-      <button
-        className="change-btn"
-        type="button"
-        onClick={() => setEditingEmail(true)}
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          const newData = {
+            idToken: authCtx.token,
+            email: pemail,
+            returnSecureToken: true,
+          };
+
+          credCtx.changeCredential(newData, API_KEY);
+        }}
       >
-        Change Email */}
-      {/* </button> */}
-      {/* </div> */}
-      {/* <div className="set"> */}
-      <p>Password: {credCtx.password} </p>
-      <button type="button" onClick={() => setEditingPassw(true)}>
-        Change Password
-      </button>
-      {/* </div> */}
-      {/* <div className="set"> */}
-      <p>Monthly Budget: ${budgCtx.budget} </p>
-      <button type="button" onClick={() => setEditingBudget(true)}>
-        Change Budget
-      </button>
-      {/* </div> */}
+        <fieldset>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            placeholder=""
+            value={pemail}
+            onChange={emailHandler}
+          />
+        </fieldset>
+        <button className="change-btn" type="submit" value="Submit">
+          Save
+        </button>
+      </form>
+
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+
+          const newData = {
+            idToken: authCtx.token,
+            password: password,
+            returnSecureToken: true,
+          };
+
+          credCtx.changeCredential(newData, API_KEY);
+          onCancel(false);
+        }}
+      >
+        <fieldset>
+          <label htmlFor="Password(6 characters minimum):">
+            Password(6 characters minimum)
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            minLength="6"
+            required
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </fieldset>
+        <button className="change-btn" type="submit" value="Submit">
+          Save
+        </button>
+      </form>
+
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          //onSave(userId, budget);
+
+          budgCtx.editBudget(authCtx.userId, budget, authCtx.token);
+
+          onCancel(false);
+        }}
+      >
+        <fieldset>
+          <label htmlFor="budget">Budget:</label>
+          <input
+            type="number"
+            id="budget"
+            name="budget"
+            placeholder="00.00"
+            value={budget}
+            step="1"
+            onChange={(event) => setBudget(event.target.value)}
+          />
+        </fieldset>
+        <button className="change-btn" type="submit" value="Submit">
+          Save
+        </button>
+      </form>
 
       {editingBudget && (
         <BudgetEditModal
