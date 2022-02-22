@@ -19,16 +19,21 @@ import styled from "styled-components";
 const AddExpDiv = styled.div`
   display: flex;
   align-items: center;
-  min-width: 70vw;
+  min-width: 70%;
   .add-exp-btn {
-    width: 70vw;
-    margin: auto auto;
-    border-radius: 15px;
+    width: 70%;
+    margin: 2em auto 1em auto;
+    border-radius: 5px;
     background-color: #b58ef2;
-    border: 2px solid #eceaea;
+    /* border: 2px solid #eceaea; */
+    border: 1px solid #b58ef2;
     color: black;
     min-height: 46px;
-    box-shadow: 2px 2px 5px #bdb7b7;
+    /* box-shadow: 2px 2px 5px #bdb7b7; */
+  }
+  .add-exp-btn:hover {
+    cursor: pointer;
+    background-color: #9665e3;
   }
   @media (min-width: 768px) {
     .add-exp-btn {
@@ -106,6 +111,9 @@ function App() {
               <Fragment>
                 <Header />
 
+                <YearFilter onChangeYear={setYear} />
+
+                <Chart expenses={filteredExpenses} />
                 {!isEditingForm ? (
                   <AddExpDiv>
                     <button
@@ -121,8 +129,6 @@ function App() {
                     onCancel={stopIsEditingFormHandler}
                   />
                 )}
-                <YearFilter onChangeYear={setYear} />
-                <Chart expenses={filteredExpenses} />
                 <Expenses expenses={filteredExpenses} />
               </Fragment>
             }

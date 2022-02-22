@@ -2,23 +2,27 @@ import React from "react";
 import styled from "styled-components";
 
 const YearFilterDiv = styled.div`
-  width: 50vw;
-  margin: auto auto;
-  margin-top: 2em;
+  width: 50%;
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
 
-  label {
-    padding-right: 0.5em;
-  }
   select {
     background: #fbf7ff;
     border-radius: 5px;
-    border: 2px solid #eceaea;
+    border: 1px solid #534e4e;
     background-color: #e6e3e8;
+    width: 100px;
+    text-align: center;
+    float: right;
   }
   @media (min-width: 768px) {
-    position: absolute;
-    left: 1200px;
-    top: -15px;
+    display: inline-block;
+    width: auto;
+    margin: 0 0;
+    float: right;
+    margin-right: 5em;
+    margin-top: 2em;
   }
 `;
 
@@ -38,7 +42,7 @@ const YearFilter = ({ onChangeYear }) => {
 
   return (
     <YearFilterDiv>
-      <label>Filter by Year</label>
+      {/* <label>Filter by Year</label> */}
       <select
         onChange={(event) => {
           onChangeYear(+event.target.value);

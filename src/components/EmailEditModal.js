@@ -12,7 +12,7 @@ const EditModalStyle = styled.div`
   margin: 2em auto auto auto;
   padding-top: 1em;
   padding-bottom: 1em;
-  width: 90vw;
+  width: 90%;
   border-radius: 5px;
   background-color: #fbf7ff;
   label {
@@ -110,7 +110,7 @@ const EmailEditModal = ({ email: defemail, onCancel }) => {
             </div>
           </form>
         </EditModalStyle>,
-        document.getElementById("edit-email-modal-root")
+        document.getElementById("modal-root")
       )}
     </React.Fragment>
   );

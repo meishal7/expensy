@@ -4,14 +4,20 @@ import React from "react";
 import styled from "styled-components";
 
 const HeaderStyle = styled.div`
-  width: 100vw;
   text-align: left;
+  display: inline-block;
+  margin-left: 1.5em;
+
   p {
     font-size: 20px;
-    padding-left: 1em;
   }
   span {
     font-weight: bold;
+  }
+  @media (min-width: 768px) {
+    display: inline-block;
+    margin-top: 1em;
+    margin-left: 3em;
   }
 `;
 

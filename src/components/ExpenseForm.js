@@ -45,10 +45,10 @@ const NewExpenseFormStyle = styled.div`
     min-width: 100px;
     border-radius: 2px;
     background-color: none;
-    border: 2px solid #eceaea;
+    border: 2px solid var(--color-primary);
     color: black;
     min-height: 30px;
-    box-shadow: 2px 2px 5px #bdb7b7;
+    flex: 1;
   }
   .form-buttons button:hover {
     background-color: #b58ef2;

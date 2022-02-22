@@ -14,9 +14,9 @@ const SideMenuStyle = styled.div`
   z-index: 1;
   left: ${({ showMenu }) => (showMenu ? "0px" : "-250px")};
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-  height: 100vh;
+  height: 100%;
   .content {
-    margin-left: 1em;
+    margin-left: 1.5em;
     margin-top: 4em;
   }
 
@@ -36,30 +36,70 @@ const SideMenuStyle = styled.div`
     font: normal normal 400 23px/31px "Open Sans";
     padding-left: 10px;
   }
+  /* a:before {
+    transition: all 0.3s ease-in-out 0s;
+    transform: scaleX(0);
+  } */
+  /* a:hover {
+    color: rgba(169, 118, 247, 1);
+  } */
+
+  a {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: rgba(169, 118, 247, 1);
+      transform: scaleX(0);
+      transform-origin: bottom left;
+      transition: transform 0.3s;
+    }
+    &:hover::after {
+      transform: scaleX(1);
+    }
+  }
   .links {
     margin-top: 1em;
   }
   .logout-btn {
     margin-top: 1em;
-    max-width: 130px;
+    width: 180px;
     background-color: #3f3d40;
-    border: #a976f7 solid 1px;
+    border: var(--color-primary) solid 1px;
     border-radius: 2px;
     color: #fbf7ff;
     padding: 5px 5px;
     font: normal normal 600 20px/31px "Open Sans";
+  }
+  .logout-btn:hover {
+    cursor: pointer;
+
+    /* -webkit-transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
+    -moz-transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
+    -ms-transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
+    -o-transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
+    transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
+    color: rgba(255, 255, 255, 0.85); */
+    box-shadow: rgba(169, 118, 247, 1) 0 80px 0px 2px inset;
   }
   @media (min-width: 768px) {
     position: fixed;
     left: 0;
     min-width: 250px;
     height: 100%;
+    .content {
+      margin-left: 1.5em;
+      margin-top: 0.5em;
+    }
   }
 `;
 const IconWrapper = styled.div`
   svg {
     width: 180px;
-    margin-top: 1em;
   }
 `;
 

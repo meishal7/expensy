@@ -12,12 +12,11 @@ const ExpenseStyle = styled.div`
   grid-template-areas:
     "name cost edit-btn"
     "date cost delete-btn";
-
-  padding: 0.5em 0.5em 0.5em 1.5em;
-
   background: #efebf2 0% 0% no-repeat padding-box;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: 1em auto;
+  border-radius: 5px;
+  width: 90%;
+  padding: 15px 10px;
   .exp-title-div {
     grid-area: name;
   }
@@ -45,18 +44,24 @@ const ExpenseStyle = styled.div`
     display: none;
   }
   .title,
-  .date,
   .cost {
     font-size: 25px;
     margin: 0 0 0 0;
     color: #3f3d40;
   }
-
+  .date {
+    padding: 0 0 0 0;
+    padding-top: 10px;
+    margin: 0 0 0 0;
+  }
   @media (min-width: 768px) {
     display: grid;
     grid-template-columns: 25% 23% 21% 21% 5% 5%;
     grid-template-rows: auto;
     grid-template-areas: "name category date cost edit-btn delete-btn";
+    width: 100%;
+    margin: 1em auto;
+
     .exp-item-name,
     .exp-item-name-div {
       display: inline-block;

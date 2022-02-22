@@ -13,7 +13,7 @@ const LogInStyle = styled.div`
   flex-direction: column;
   .content {
     margin: auto auto auto auto;
-    width: 70vw;
+    width: 70%;
   }
   .form {
     margin-top: 1em;
@@ -72,7 +72,7 @@ const LogInStyle = styled.div`
   @media (min-width: 768px) {
     .content {
       margin: auto auto auto auto;
-      width: 50vw;
+      width: 50%;
     }
   }
 `;

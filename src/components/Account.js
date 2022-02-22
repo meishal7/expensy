@@ -4,10 +4,11 @@ import BudgetContext from "../context/BudgetContext";
 import CredentialsContext from "../context/CredentialsContext";
 import EmailEditModal from "./EmailEditModal";
 import PasswEditModal from "./PasswEditModal";
+import AuthContext from "../context/AuthContext";
 import styled from "styled-components";
 
 const AccountStyle = styled.div`
-  width: 100vw;
+  width: 100%;
   margin-left: 3em;
   margin-top: 2em;
   span {
@@ -31,28 +32,54 @@ const AccountStyle = styled.div`
   }
 `;
 
-export default function Account() {
+export default function Account({ onCancel }) {
   const email = localStorage.getItem("email");
 
   const budgCtx = useContext(BudgetContext);
   const credCtx = useContext(CredentialsContext);
+  const authCtx = useContext(AuthContext);
 
   const [editingBudget, setEditingBudget] = useState(false);
   const [editingEmail, setEditingEmail] = useState(false);
   const [editingPassw, setEditingPassw] = useState(false);
 
+  const API_KEY = process.env.REACT_APP_API_KEY;
+
   return (
     <AccountStyle>
       <span>ACCOUNT</span>
       {/* <div className="set"> */}
-      <p>Email: {credCtx.email} </p>
+      <fieldset>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" />
+        <input
+          className="change-btn"
+          type="submit"
+          value="Submit"
+          onSubmit={(event) => {
+            event.preventDefault();
+
+            const newData = {
+              idToken: authCtx.token,
+              email: email,
+              returnSecureToken: true,
+            };
+            credCtx.changeCredential(newData, API_KEY);
+            onCancel(false);
+          }}
+        />
+        <button type="button" onClick={() => onCancel(false)}>
+          Cancel
+        </button>
+      </fieldset>
+      {/* <p>Email: {credCtx.email} </p>
       <button
         className="change-btn"
         type="button"
         onClick={() => setEditingEmail(true)}
       >
-        Change Email
-      </button>
+        Change Email */}
+      {/* </button> */}
       {/* </div> */}
       {/* <div className="set"> */}
       <p>Password: {credCtx.password} </p>

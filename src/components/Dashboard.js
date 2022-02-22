@@ -7,6 +7,8 @@ const DashboardStyle = styled.div`
   @media (min-width: 768px) {
     width: 80%;
     margin-left: 250px;
+    padding-left: 3em;
+    padding-right: 3em;
   }
 `;
 
