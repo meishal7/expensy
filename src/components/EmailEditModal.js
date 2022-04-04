@@ -23,7 +23,6 @@ const EditModalStyle = styled.div`
   input {
     background: #fbf7ff;
     min-width: 300px;
-    /* width: 100%; */
     border-radius: 5px;
     min-height: 40px;
     border: 2px solid #eceaea;

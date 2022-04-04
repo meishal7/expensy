@@ -119,8 +119,6 @@ const Expense = ({
 }) => {
   const [editingExp, setEditing] = useState(false);
 
-  // const token = localStorage.getItem("token");
-  // const userId = localStorage.getItem("userId");
 
   const authCtx = useContext(AuthContext);
 
@@ -137,9 +135,6 @@ const Expense = ({
       <div className="date-div">
         <p className="exp-item-name">Date</p>
         <p className="date">{date}</p>
-        {/* <p>{month}</p>
-        <p>{day}</p>
-        <p>{year}</p> */}
       </div>
       <div className="amount-div">
         <p className="exp-item-name">Amount</p>
@@ -152,7 +147,6 @@ const Expense = ({
           setEditing(true);
         }}
       >
-        {" "}
         <IconWrapper>
           <BsPencilSquare />
         </IconWrapper>

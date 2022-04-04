@@ -11,6 +11,8 @@ const ModalStyle = styled.div`
   height: 100vh;
   background: #0d0d0de8;
   z-index: 99;
+  display: flex;
+  justify-content: center;
 `;
 
 const EditModalStyle = styled.div`
@@ -34,7 +36,6 @@ const EditModalStyle = styled.div`
   input {
     background: #fbf7ff;
     min-width: 300px;
-    /* width: 100%; */
     border-radius: 5px;
     min-height: 40px;
     border: 2px solid #eceaea;
@@ -87,9 +88,9 @@ const EditModalStyle = styled.div`
     position: absolute;
     z-index: 5;
     border: 1px solid black;
-    width: 70%;
-    align: center;
-    /* margin: 10em 10em; */
+    width: 50%;
+    //align: center;
+    //margin: 0 auto;
   }
 `;
 
@@ -107,8 +108,6 @@ const ExpEditModal = ({
 
   const expCtx = useContext(ExpensesContext);
   const authCtx = useContext(AuthContext);
-
-  //const token = localStorage.getItem("token");
 
   const titleHandler = (event) => {
     setTitle(event.target.value);
@@ -134,7 +133,6 @@ const ExpEditModal = ({
             <form
               onSubmit={(event) => {
                 event.preventDefault();
-                console.log(authCtx.token);
 
                 const changedData = {
                   title: title,

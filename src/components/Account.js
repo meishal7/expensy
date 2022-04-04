@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import BudgetEditModal from "./BudgetEditModal";
 import BudgetContext from "../context/BudgetContext";
 import CredentialsContext from "../context/CredentialsContext";
@@ -18,6 +18,10 @@ const AccountStyle = styled.div`
     height: 30px;
     border: 1px solid black;
     display: block;
+    width: 150px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   input {
     border: none;
@@ -34,6 +38,9 @@ const AccountStyle = styled.div`
     padding: 0 0 0 0;
     margin: 0 0 0 0;
     border: none;
+  }
+  .form {
+    margin-top: 10px;
   }
 `;
 
@@ -64,7 +71,10 @@ export default function Account({ onCancel }) {
 
   return (
     <AccountStyle>
-      <span>ACCOUNT</span>
+      <span>ACCOUNT SETTINGS</span>
+      <p>
+        To change email, password or budget click on desired field with text.
+      </p>
 
       <form
         onSubmit={(event) => {
@@ -104,7 +114,7 @@ export default function Account({ onCancel }) {
           };
 
           credCtx.changeCredential(newData, API_KEY);
-          onCancel(false);
+          // onCancel(false);
         }}
       >
         <fieldset>
@@ -118,7 +128,8 @@ export default function Account({ onCancel }) {
             minLength="6"
             required
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            // onChange={(event) => setPassword(event.target.value)}
+            onChange={passwHandler}
           />
         </fieldset>
         <button className="change-btn" type="submit" value="Submit">
@@ -154,11 +165,7 @@ export default function Account({ onCancel }) {
       </form>
 
       {editingBudget && (
-        <BudgetEditModal
-          //onSave={budgCtx.editBudget}
-          onCancel={setEditingBudget}
-          budget={budgCtx.budget}
-        />
+        <BudgetEditModal onCancel={setEditingBudget} budget={budgCtx.budget} />
       )}
 
       {editingEmail && (

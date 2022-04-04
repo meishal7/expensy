@@ -23,7 +23,6 @@ const EditModalStyle = styled.div`
   input {
     background: #fbf7ff;
     min-width: 300px;
-    /* width: 100%; */
     border-radius: 5px;
     min-height: 40px;
     border: 2px solid #eceaea;
@@ -32,7 +31,6 @@ const EditModalStyle = styled.div`
   input:focus {
     border: 2px solid #b5afaf;
   }
-
   .form-buttons {
     margin-top: 1em;
     display: flex;

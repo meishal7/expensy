@@ -19,7 +19,6 @@ const SideMenuStyle = styled.div`
     margin-left: 1.5em;
     margin-top: 4em;
   }
-
   .menu-items {
     display: flex;
     flex-direction: column;
@@ -36,14 +35,6 @@ const SideMenuStyle = styled.div`
     font: normal normal 400 23px/31px "Open Sans";
     padding-left: 10px;
   }
-  /* a:before {
-    transition: all 0.3s ease-in-out 0s;
-    transform: scaleX(0);
-  } */
-  /* a:hover {
-    color: rgba(169, 118, 247, 1);
-  } */
-
   a {
     position: relative;
     &::after {
@@ -77,13 +68,6 @@ const SideMenuStyle = styled.div`
   }
   .logout-btn:hover {
     cursor: pointer;
-
-    /* -webkit-transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
-    -moz-transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
-    -ms-transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
-    -o-transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
-    transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
-    color: rgba(255, 255, 255, 0.85); */
     box-shadow: rgba(169, 118, 247, 1) 0 80px 0px 2px inset;
   }
   @media (min-width: 768px) {
@@ -115,11 +99,9 @@ export default function SideMenu({
     <SideMenuStyle showMenu={showMenu}>
       <div className="content">
         <div className="header">
-          {/* <div className="logo"> */}
           <IconWrapper>
             <Logo />
           </IconWrapper>
-          {/* </div> */}
         </div>
         <div className="menu-items">
           <div className="links">

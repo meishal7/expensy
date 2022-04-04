@@ -25,11 +25,9 @@ const AddExpDiv = styled.div`
     margin: 2em auto 1em auto;
     border-radius: 5px;
     background-color: #b58ef2;
-    /* border: 2px solid #eceaea; */
     border: 1px solid #b58ef2;
     color: black;
     min-height: 46px;
-    /* box-shadow: 2px 2px 5px #bdb7b7; */
   }
   .add-exp-btn:hover {
     cursor: pointer;
@@ -56,7 +54,6 @@ function App() {
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  //const budget = localStorage.getItem("budget");
 
   useEffect(() => {
     if (token) {
@@ -74,10 +71,8 @@ function App() {
   };
 
   const submitExpenseHandler = async (data, token) => {
-    console.log(data.date);
     setLoading(true);
     expCtx.storeNewExp(authCtx.userId, data, authCtx.token);
-    //budgCtx.storeBudget(userId, budgCtx.budget);
 
     setLoading(false);
     setIsEditing(false);
@@ -104,15 +99,13 @@ function App() {
           }
         >
           <Route path="account" element={<Account />} />
-          {/* <Route path="budget" element={<Budget />} /> */}
+
           <Route
             path=""
             element={
               <Fragment>
                 <Header />
-
                 <YearFilter onChangeYear={setYear} />
-
                 <Chart expenses={filteredExpenses} />
                 {!isEditingForm ? (
                   <AddExpDiv>

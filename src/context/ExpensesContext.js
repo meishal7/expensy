@@ -8,34 +8,22 @@ const ExpensesContext = React.createContext({
   getExp: (userId) => {},
   storeNewExp: (expenseData, userId) => {},
   editExp: (expdata) => {},
-  // editingExp: false,
-  // setEditing: (editingExp) => {},
 });
-
-//const userId = localStorage.getItem("userId");
 
 const editExp = async (userId, expData, token) => {
   try {
     const response = await fetch(
-      // `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expData.id}.json`,
       `https://expancy-f5b7d-default-rtdb.firebaseio.com/users/${userId}/expenses/${expData.id}.json?auth=${token}`,
       {
         method: "PATCH",
         body: JSON.stringify(expData),
-
-        // headers: {
-        //   "Content-type": "application/json",
-        // },
       }
     );
-    // if (response.status >= 400 && response.status < 600) {
-    //   throw new Error("Bad response from server");
-    // }
+
     if (!response.ok) console.log(response.status);
 
     return response;
   } catch (error) {
-    console.log("Fetch error: ", error);
     alert(error);
   }
 };
@@ -43,21 +31,16 @@ const editExp = async (userId, expData, token) => {
 const deleteExp = async (userId, expId, token) => {
   try {
     const response = await fetch(
-      // `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}.json`,
       `https://expancy-f5b7d-default-rtdb.firebaseio.com/users/${userId}/expenses/${expId}.json?auth=${token}`,
       {
         method: "DELETE",
       }
     );
-    // if (response.status >= 400 && response.status < 600) {
-    //   throw new Error("Bad response from server");
-    // }
+
     if (!response.ok) console.log(response.status);
 
-    console.log("res from deleting", response);
     return response;
   } catch (error) {
-    console.log("Fetch error: ", error);
     alert(error);
   }
 };
@@ -65,7 +48,6 @@ const deleteExp = async (userId, expId, token) => {
 const getExp = async (userId, token) => {
   try {
     const response = await fetch(
-      //`https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
       `https://expancy-f5b7d-default-rtdb.firebaseio.com/users/${userId}/expenses.json?auth=${token}`,
       {
         method: "GET",
@@ -82,7 +64,6 @@ const getExp = async (userId, token) => {
     }));
     return data;
   } catch (error) {
-    console.log("Fetch error: ", error);
     alert(error);
   }
 };
@@ -90,7 +71,6 @@ const getExp = async (userId, token) => {
 const storeNewExp = async (userId, expenseData, token) => {
   try {
     const response = await fetch(
-      // `https://expensy-db-default-rtdb.firebaseio.com/users/${userId}/expenses.json`,
       `https://expancy-f5b7d-default-rtdb.firebaseio.com/users/${userId}/expenses.json?auth=${token}`,
 
       {
@@ -102,13 +82,10 @@ const storeNewExp = async (userId, expenseData, token) => {
       }
     );
     if (!response.ok) console.log(response.status);
-    // if (response.status >= 400 && response.status < 600) {
-    //   throw new Error("Bad response from server");
-    // }
+
     const res = await response.json();
     return res;
   } catch (error) {
-    console.log("Fetch error: ", error);
     alert(error);
   }
 };
@@ -117,7 +94,6 @@ export const ExpensesContextProvider = (props) => {
   const [expId, setExpId] = useState("");
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
-  //const [editingExp, setEditing] = useState(false);
   const budgCtx = useState(BudgetContext);
 
   const deleteExpHandler = async (userId, expId, token) => {

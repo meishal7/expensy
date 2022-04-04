@@ -16,15 +16,11 @@ export default async function editEmail(token, newEmail, API_KEY) {
         },
       }
     );
-    if (!response.ok) console.log(response.status);
-    // if (response.status >= 400 && response.status < 600) {
-    //   throw new Error("Bad response from server");
-    // }
+
     const res = await response.json();
-    console.log(res);
+
     return res;
   } catch (error) {
-    console.log("Fetch error: ", error);
     alert(error);
   }
 }

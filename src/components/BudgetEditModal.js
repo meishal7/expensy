@@ -23,7 +23,6 @@ const EditModalStyle = styled.div`
   input {
     background: #fbf7ff;
     min-width: 300px;
-    /* width: 100%; */
     border-radius: 5px;
     min-height: 40px;
     border: 2px solid #eceaea;
@@ -67,11 +66,7 @@ const BudgetEditModal = ({ budget: defbudget, onSave, onCancel }) => {
   const [budget, setBudget] = useState(defbudget);
   const budgCtx = useContext(BudgetContext);
   const authCtx = useContext(AuthContext);
-  //const userId = localStorage.getItem("userId");
-
-  // const budgetHandler = (event) => {
-  //   setBudget(event.target.value);
-  // };
+  
 
   return (
     <React.Fragment>

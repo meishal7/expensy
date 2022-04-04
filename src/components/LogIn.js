@@ -1,4 +1,4 @@
-import { useRef, useContext, Fragment, useState } from "react";
+import { useRef, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import BudgetContext from "../context/BudgetContext";
@@ -33,21 +33,16 @@ const LogInStyle = styled.div`
     border-radius: 5px;
     min-height: 30px;
     border: 0.5px #fbf7ff solid;
-    /* -webkit-appearance: none;
-    -moz-appearance: none; */
   }
   input:focus {
     outline: none;
     border: 2px #918e8e solid;
   }
-
   button {
     width: 100%;
     margin-top: 1em;
     min-height: 35px;
     font-family: inherit;
-    /* -webkit-appearance: none;
-    -moz-appearance: none; */
     border-radius: 5px;
     border: 0.5px #fbf7ff solid;
     background: #fbf7ff;
@@ -93,7 +88,7 @@ export default function LogIn(props) {
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-    console.log(enteredEmail);
+
     localStorage.setItem("email", enteredEmail);
 
     const url =

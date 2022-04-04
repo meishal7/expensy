@@ -25,7 +25,6 @@ const NewExpenseFormStyle = styled.div`
   input {
     background: #fbf7ff;
     width: 300px;
-    /* width: 100%; */
     border-radius: 5px;
     height: 40px;
     border: 2px solid #eceaea;
@@ -63,9 +62,7 @@ const NewExpenseFormStyle = styled.div`
     margin-left: 1em;
     background-color: none;
   }
-  /* .submit-btn:hover {
-    color: pink;
-  } */
+  
   select {
     background: #fbf7ff;
     width: 100%;
@@ -78,7 +75,7 @@ const NewExpenseFormStyle = styled.div`
     input {
       width: 500px;
     }
-    /* width: 100%; */
+   
   }
 `;
 
@@ -136,7 +133,6 @@ const ExpenseForm = (props) => {
 
       year: +format(new Date(date), "yyyy"),
       month: format(new Date(date), "MMM"),
-      // day: format(new Date(date), "dd"),
       cost: cost,
       category: category,
     };
@@ -162,7 +158,6 @@ const ExpenseForm = (props) => {
         />
       )}
       <form onSubmit={submitHandler}>
-        {/* <div className="input-set"> */}
         <label htmlFor="expense-name">Title</label>
         <input
           className="input-area"
@@ -173,8 +168,7 @@ const ExpenseForm = (props) => {
           value={title}
           onChange={titleHandler}
         />
-        {/* </div> */}
-        {/* <div className="input-set"> */}
+        
         <label htmlFor="expense-cost">Cost</label>
         <input
           type="number"
@@ -185,8 +179,7 @@ const ExpenseForm = (props) => {
           step="1"
           onChange={costHandler}
         />
-        {/* </div> */}
-        {/* <div className="input-set"> */}
+       
         <label htmlFor="expense-date">Date</label>
         <input
           type="date"
@@ -198,8 +191,7 @@ const ExpenseForm = (props) => {
           value={date}
           onChange={dateHandler}
         />
-        {/* </div> */}
-        {/* <div className="input-set"> */}
+        
         <label>Category</label>
         <select onChange={categoryHandler}>
           {categories.map((category, i) => (
@@ -208,7 +200,7 @@ const ExpenseForm = (props) => {
             </option>
           ))}
         </select>
-        {/* </div> */}
+       
         <div className="form-buttons">
           <button type="button" onClick={props.onCancel}>
             Cancel

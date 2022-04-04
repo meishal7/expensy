@@ -26,23 +26,10 @@ const YearFilterDiv = styled.div`
   }
 `;
 
-/** 
- * position: absolute;
-width: 100%;
-height: 100%;
-background-color: #0000007d;
-z-index: 99;x 
- */
-
 const YearFilter = ({ onChangeYear }) => {
-  // const yearHandler = (event) => {
-  //   //console.log(+event.target.value);
-  //   onChangeYear(+event.target.value);
-  // };
-
+  
   return (
     <YearFilterDiv>
-      {/* <label>Filter by Year</label> */}
       <select
         onChange={(event) => {
           onChangeYear(+event.target.value);

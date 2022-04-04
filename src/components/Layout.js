@@ -1,11 +1,8 @@
-import { Fragment } from "react";
-import { Outlet } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import SideMenu from "./SideMenu";
-import menu from "../images/menu.png";
 import styled from "styled-components";
 import { useState } from "react";
-import { VscAccount } from "react-icons/vsc";
+
 
 const LayoutStyle = styled.div`
   background: #fbf7ff 0% 0% no-repeat padding-box;
@@ -17,7 +14,6 @@ const LayoutStyle = styled.div`
     transition: 0.5s ease;
     opacity: 1;
   }
-
   .open {
     margin-left: 1em;
     margin-top: 1em;
@@ -65,7 +61,6 @@ export default function Layout() {
 
   return (
     <LayoutStyle>
-      {/* {width >= 768 && <SideMenu />} */}
       <div
         className={`${menuCollapse ? "open" : " "}  menu-btn`}
         onClick={() => {

@@ -49,7 +49,6 @@ const ChartStyle = styled.div`
     .hr-label-bottom {
       margin-top: 14em;
       margin-right: 67em;
-      /* padding-right: 50em; */
       position: absolute;
       display: inline;
     }
@@ -58,8 +57,7 @@ const ChartStyle = styled.div`
       margin-right: 67em;
       top: 12em;
       display: inline;
-      /* margin-top: 10em;
-      padding-right: 2em; */
+      
     }
   }
 `;
@@ -92,15 +90,10 @@ const Chart = ({ expenses }) => {
   }
 
   let groupedExpenses = groupBy(expenses, "month");
-  //console.log(groupedExpenses);
+  
 
   return (
     <ChartStyle>
-      {/* <p className="hr-label-top">${(budgCtx.budget / 3) * 2}</p>
-      <hr className="hr-top"></hr>
-      <p className="hr-label-bottom">${budgCtx.budget / 3}</p>
-      <hr className="hr-bottom"></hr> */}
-
       {monthNames.map((month, i) => (
         <div className="candle" key={i}>
           <p className="month-name">{month}</p>

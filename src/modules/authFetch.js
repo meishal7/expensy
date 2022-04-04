@@ -8,7 +8,6 @@ export default async function authFetch(url, key, object) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log("Fetch error: ", error);
     alert(error);
   }
 }
