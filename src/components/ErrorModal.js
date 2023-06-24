@@ -28,7 +28,7 @@ const ErrorModal = (props) => {
           message={props.message}
           onClose={props.onClose}
         />,
-        document.getElementById("error-modale")
+        document.getElementById("modal-root")
       )}
     </React.Fragment>
   );
